@@ -1,27 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2019 O-Train Fans
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjam9obzZpMDQwMGQ0M2tsY280OTh2M2o5In0.XtnbkAMU7nIMkq7amsiYdw'
 //mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjandmbGc5MG8xZGg1M3pudXl6dTQ3NHhtIn0.6eYbb2cN8YUexz_F0ZCqUQ';
 // let map = null = new mapboxgl.Map({
@@ -40,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 let toggleOptions = {
-    dark: false,
+    dark: true,
     satellite: false,
     stage3west: false,
     stage3south: false,
@@ -71,17 +47,9 @@ function syncToggleOptionsState() {
 let firstSymbolId;
 let count = 0;
 
-let trillium;
-let confederation;
-let confederationEast;
-let confederationWest;
-let kanata;
+let train, bus, streetcar, subway;
 
 function setupDataDisplay() {
-    map.loadImage('images/station.png', (error, image) => {
-        if (error) throw error;
-        map.addImage('station', image);
-    });
 
     loadJson('data/stage2south.json', (data) => {
         trillium = data;
@@ -182,6 +150,35 @@ function setupDataDisplay() {
             "line-width": 2
         }
     }, firstSymbolId);
+
+
+    map.addLayer({
+        'id': '3d-buildings',
+        'source': 'composite',
+        'source-layer': 'building',
+        'filter': ['==', 'extrude', 'true'],
+        'type': 'fill-extrusion',
+        'minzoom': 15,
+        'paint': {
+            'fill-extrusion-color': '#aaa',
+
+            // use an 'interpolate' expression to add a smooth transition effect to the
+            // buildings as the user zooms in
+            'fill-extrusion-height': [
+                "interpolate", ["linear"],
+                ["zoom"],
+                15, 0,
+                15.05, ["get", "height"]
+            ],
+            'fill-extrusion-base': [
+                "interpolate", ["linear"],
+                ["zoom"],
+                15, 0,
+                15.05, ["get", "min_height"]
+            ],
+            'fill-extrusion-opacity': .6
+        }
+    }, firstSymbolId);
 }
 
 function clearData() {
@@ -264,7 +261,9 @@ function loadLine(line, name) {
         type: 'symbol',
         source: name,
         minzoom: 10,
-        filter: ['all', ['==', 'name', ""], ['==', 'type', 'station-label']],
+        filter: ['all', ['==', 'name', ""],
+            ['==', 'type', 'station-label']
+        ],
         layout: {
             "text-field": "{name}",
             "text-anchor": "left",
@@ -288,7 +287,9 @@ function loadLine(line, name) {
     let lastFeatureId;
     // Using mousemove is more accurate than mouseenter/mouseleave for hover effects
     map.on('mousemove', (e) => {
-        let fs = map.queryRenderedFeatures(e.point, {layers: [`${name}-labels`]});
+        let fs = map.queryRenderedFeatures(e.point, {
+            layers: [`${name}-labels`]
+        });
         if (fs.length > 0) {
             map.getCanvas().style.cursor = 'pointer';
 
@@ -297,12 +298,16 @@ function loadLine(line, name) {
                 lastFeatureId = f.properties.name;
 
                 // Show this element on the "hover labels" layer
-                map.setFilter(`${name}-labels-hover`, ['all', ['==', 'name', f.properties.name], ['==', 'type', 'station-label']]);
+                map.setFilter(`${name}-labels-hover`, ['all', ['==', 'name', f.properties.name],
+                    ['==', 'type', 'station-label']
+                ]);
             }
         } else {
             map.getCanvas().style.cursor = '';
             // Reset the "hover labels" layer
-            map.setFilter(`${name}-labels-hover`, ['all', ['==', 'name', ""], ['==', 'type', 'station-label']]);
+            map.setFilter(`${name}-labels-hover`, ['all', ['==', 'name', ""],
+                ['==', 'type', 'station-label']
+            ]);
             lastFeatureId = undefined;
         }
     });
@@ -318,7 +323,7 @@ function getLngLatFromFeatures(features) {
     return points;
 }
 
-function loadMap(style = "mapbox://styles/mapbox/light-v9") {
+function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
     if (map != null) {
         map.remove()
     }
@@ -326,8 +331,8 @@ function loadMap(style = "mapbox://styles/mapbox/light-v9") {
     map = new mapboxgl.Map({
         container: 'map-container',
         style: style,
-        center: [-75.6294, 45.3745], 
-        zoom: 11, 
+        center: [-79.395540, 43.664166],
+        zoom: 11,
         bearing: -30,
         hash: true
     })
@@ -348,7 +353,7 @@ document.getElementById('dark-toggle').addEventListener('click', () => {
     }
     toggleOptions.satellite = false;
     toggleOptions.dark = !toggleOptions.dark;
-}) 
+})
 
 // Toggle the map between satellite mode and whatever light/dark mode was previously active
 document.getElementById('satellite-toggle').addEventListener('click', () => {

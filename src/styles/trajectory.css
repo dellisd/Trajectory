@@ -1,9 +1,0 @@
-@import url('https://fonts.googleapis.com/css?family=Major+Mono+Display&display=swap');
-
-h1, h2, h3, h4 {
-    font-family: 'Major Mono Display', monospace;
-}
-
-.left-menu {
-    background-color: #6ECEB2;
-}

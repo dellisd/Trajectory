@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StaticMap} from 'react-map-gl';
-import DeckGL, {GeoJsonLayer, PolygonLayer} from 'deck.gl';
+import DeckGL, {GeoJsonLayer, PolygonLayer, CompositeLayer} from 'deck.gl';
 import {LightingEffect, AmbientLight, _SunLight as SunLight} from '@deck.gl/core';
 import {scaleThreshold} from 'd3-scale';
 
@@ -9,7 +9,7 @@ const MAPBOX_TOKEN = process.env.MapboxAccessToken || 'pk.eyJ1IjoiZGVsbGlzZCIsIm
 
 // Source data GeoJSON
 const DATA_URL =
-  'https://raw.githubusercontent.com/uber-common/deck.gl-data/master/examples/geojson/vancouver-blocks.json'; // eslint-disable-line
+  'https://raw.githubusercontent.com/dellisd/Trajectory/master/Tracks.geojson'; // eslint-disable-line
 
 export const COLOR_SCALE = scaleThreshold()
   .domain([-0.6, -0.45, -0.3, -0.15, 0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2])
@@ -87,13 +87,11 @@ export default class Map extends Component {
         id: 'geojson',
         data,
         opacity: 0.8,
-        stroked: false,
-        filled: true,
-        extruded: true,
-        wireframe: true,
+        stroked: true,
         getElevation: f => Math.sqrt(f.properties.valuePerSqm) * 10,
         getFillColor: f => COLOR_SCALE(f.properties.growth),
-        getLineColor: [255, 255, 255],
+        getLineColor: [255, 255, 0],
+        getLineWidth: 10,
         pickable: true,
         onHover: this._onHover
       })
@@ -101,7 +99,7 @@ export default class Map extends Component {
   }
 
   render() {
-    const {mapStyle = 'mapbox://styles/mapbox/light-v9'} = this.props;
+    const {mapStyle = 'mapbox://styles/mapbox/dark-v9'} = this.props;
 
     return (
       <DeckGL
@@ -111,6 +109,7 @@ export default class Map extends Component {
         controller={true}
       >
         <StaticMap
+
           reuseMaps
           mapStyle={mapStyle}
           preventStyleDiffing={true}

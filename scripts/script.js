@@ -129,8 +129,8 @@ function setupDataDisplay() {
                                         <p class="card-text">
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
-                                        <p class="card-text">
-                                            delay -> ${transitData.train[unit].delay}
+                                        <p id="card-delay-${unit}" class="card-text">
+                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
                                         </p>
                                         <a class="btn btn-primary" style="float: right">follow</a>
                                     </div>
@@ -153,8 +153,8 @@ function setupDataDisplay() {
                                         <p class="card-text">
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
-                                        <p class="card-text">
-                                            delay -> ${transitData.train[unit].delay}
+                                        <p id="card-delay-${unit}" class="card-text">
+                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
                                         </p>
                                         <a class="btn btn-primary" style="float: right">follow</a>
                                     </div>
@@ -166,6 +166,10 @@ function setupDataDisplay() {
                 }
 
                 loadOnce = true;
+                
+                Object.keys(transitData.train).forEach((unit) => {
+                    document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}`;
+                })
 
                 if (interval !== undefined) {
                     window.cancelAnimationFrame(interval)

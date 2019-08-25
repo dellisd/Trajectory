@@ -67399,7 +67399,7 @@ function setupDataDisplay() {
         let loadOnce = false;
         var first = false;
         loadObj((data) => {
-            const ws = new WebSocket("ws://trajectory.herokuapp.com/")
+            const ws = new WebSocket("wss://trajectory.herokuapp.com/")
             ws.addEventListener('open', () => {
 
             })
@@ -67522,27 +67522,23 @@ function setupDataDisplay() {
                     })
 
                     if (map.getLayer('trains') != null) {
-                        map.removeLayer('trains')
+                        map.getLayer('trains').implementation.setProps({ data: trainData })
+                    } else {
+                        map.addLayer(new MapboxLayer({
+                            type: SimpleMeshLayer,
+                            data: trainData,
+                            id: 'trains',
+                            getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
+                            mesh: data,
+                            getColor: [0, 0, 255]
+                        }))
                     }
-                    map.addLayer(new MapboxLayer({
-                        type: SimpleMeshLayer,
-                        data: trainData,
-                        id: 'trains',
-                        getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
-                        mesh: data,
-                        getColor: [0, 0, 255]
-                    }))
 
-                    try {
-                        if (sc506East !== undefined) {
-                            var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data, delta)
-                            var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
-                            oldData.streetcar = [...a, ...b]
-                        }
-                    }
-                    catch (e) {
-                        console.log(e)
-                    }
+                    // if (sc506East !== undefined) {
+                    //     var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data, delta)
+                    //     var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
+                    //     oldData.streetcar = [...a, ...b]
+                    // }
 
                     requestAnimationFrame(callback)
                 }
@@ -67615,16 +67611,19 @@ function animateStreetcars(streetcars, line, id, data, delta) {
 
 
     if (map.getLayer('streetcar' + id) != null) {
-        map.removeLayer('streetcar' + id)
+        map.getLayer('streetcar' + id).implementation.setProps({
+            data: trainData
+        })
+    } else {
+        map.addLayer(new MapboxLayer({
+            type: SimpleMeshLayer,
+            data: trainData,
+            id: 'streetcar' + id,
+            getOrientation: (obj) => [0, obj.angle, 0],
+            mesh: data,
+            getColor: [255, 0, 0]
+        }))
     }
-    map.addLayer(new MapboxLayer({
-        type: SimpleMeshLayer,
-        data: trainData,
-        id: 'streetcar' + id,
-        getOrientation: (obj) => [0, obj.angle, 0],
-        mesh: data,
-        getColor: [255, 0, 0]
-    }))
 
     return streetcars
 }
@@ -67801,10 +67800,10 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
     // ]);
 }
 
-window.setBounds = function(y, x) {
+window.setBounds = function (y, x) {
     console.log('TESSSSt', x, y)
     map.fitBounds([
-        [x - 0.01, y - 0.01],[x + 0.01, y + 0.01]
+        [x - 0.01, y - 0.01], [x + 0.01, y + 0.01]
     ])
 }
 },{"@deck.gl/mapbox":135,"@deck.gl/mesh-layers":137,"@loaders.gl/core":148,"@loaders.gl/obj":224,"@turf/turf":405}]},{},[468]);

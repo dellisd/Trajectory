@@ -96,20 +96,21 @@ function setupDataDisplay() {
         data: 'data/train.geojson'
     });
 
-    map.addLayer({
+    map.addLayer(new deck.MapboxLayer({
         id: "train",
-        type: "line",
-        source: 'train',
-        filter: ['!=', 'name', 'Outline'],
-        layout: {
-            "line-join": "round",
-            "line-cap": "round"
-        },
-        paint: {
-            "line-color": '#256C2F',
-            "line-width": 2
-        }
-    }, firstSymbolId);
+        type: deck.GeoJsonLayer,
+        data: 'data/train.geojson',
+        opacity: 0.8,
+        stroked: false,
+        filled: true,
+        extruded: true,
+        wireframe: true,
+        getElevation: f => Math.sqrt(f.properties.valuePerSqm) * 10,
+        getFillColor: 'red',
+        getLineColor: [255, 255, 255],
+        pickable: true,
+
+    }), firstSymbolId);
 
     map.addLayer({
         'id': '3d-buildings',

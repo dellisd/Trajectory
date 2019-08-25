@@ -118,6 +118,11 @@ function setupDataDisplay() {
         }, firstSymbolId);
 
         var first = false;
+<<<<<<< HEAD
+=======
+        var loadOnce = false;
+
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
         loadObj((data) => {
             const ws = new WebSocket("ws://trajectory.herokuapp.com/")
             ws.addEventListener('open', () => {
@@ -149,9 +154,15 @@ function setupDataDisplay() {
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
                                         <p id="card-delay-${unit}" class="card-text">
+<<<<<<< HEAD
                                             delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}
                                         </p>
                                         <a onClick="setBounds(${transitData.train[unit].location[0]}, ${transitData.train[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
+=======
+                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
+                                        </p>
+                                        <a class="btn btn-primary" style="float: right">follow</a>
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                                     </div>
                                 </div>
                             </div>`)
@@ -173,9 +184,15 @@ function setupDataDisplay() {
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
                                         <p id="card-delay-${unit}" class="card-text">
+<<<<<<< HEAD
                                             delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}
                                         </p>
                                         <a onClick="setBounds(${transitData.train[unit].location[0]}, ${transitData.train[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
+=======
+                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
+                                        </p>
+                                        <a class="btn btn-primary" style="float: right">follow</a>
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                                     </div>
                                 </div>
                             </div>
@@ -185,9 +202,15 @@ function setupDataDisplay() {
                 }
 
                 loadOnce = true;
+<<<<<<< HEAD
 
                 Object.keys(transitData.train).forEach((unit) => {
                     document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}`;
+=======
+                
+                Object.keys(transitData.train).forEach((unit) => {
+                    document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}`;
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                 })
 
                 if (interval !== undefined) {
@@ -209,6 +232,12 @@ function setupDataDisplay() {
                             console.log(lineString.geometry.coordinates[0])
                             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
                         } else {
+<<<<<<< HEAD
+=======
+                            let endTime = Date.now()
+                            let delta = endTime - startTime
+                            startTime = endTime
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                             let speed = train.distance / (Math.abs(train.arrivalTime - Date.now()) / 1000)
                             train.distanceAnim += speed * delta / 1000
                         }
@@ -239,7 +268,12 @@ function setupDataDisplay() {
                         }
 
                         return output
+<<<<<<< HEAD
                     })
+=======
+                    }
+                    )
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
 
                     if (map.getLayer('trains') != null) {
                         map.removeLayer('trains')
@@ -250,6 +284,7 @@ function setupDataDisplay() {
                         id: 'trains',
                         getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
                         mesh: data,
+<<<<<<< HEAD
                         getColor: [0, 0, 255]
                     }))
 
@@ -262,6 +297,15 @@ function setupDataDisplay() {
                     }
                     catch (e) {
                         console.log(e)
+=======
+                        getColor: [255, 0, 0]
+                    }))
+
+                    if (sc506East !== undefined) {
+                        var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data)
+                        var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data)
+                        oldData.streetcar = [...a,...b]                    
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                     }
 
                     requestAnimationFrame(callback)
@@ -300,7 +344,11 @@ function setupDataDisplay() {
     }, firstSymbolId);
 }
 
+<<<<<<< HEAD
 function animateStreetcars(streetcars, line, id, data, delta) {
+=======
+function animateStreetcars(streetcars, line, id, data) {
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
     let lineString = turf.lineString(line)
 
     streetcars = streetcars.map((train) => {
@@ -310,7 +358,11 @@ function animateStreetcars(streetcars, line, id, data, delta) {
             console.log(lineString.geometry.coordinates[0])
             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
         } else {
+<<<<<<< HEAD
             train.distanceAnim += 0.009333 * delta / 1000
+=======
+            train.distanceAnim += 0.0138888889
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
         }
 
         return train
@@ -332,7 +384,11 @@ function animateStreetcars(streetcars, line, id, data, delta) {
             }
         }
     }
+<<<<<<< HEAD
     ).filter(x => x !== undefined)
+=======
+    )
+>>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
 
     if (map.getLayer('streetcar' + id) != null) {
         map.removeLayer('streetcar' + id)

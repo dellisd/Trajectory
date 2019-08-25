@@ -1,7 +1,7 @@
 const vehicles = {
   train: true,
   gobus: false,
-  streetcar: false,
+  streetcar: true,
   subway: false,
   bus: false,
 }

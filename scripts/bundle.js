@@ -67478,9 +67478,6 @@ function setupDataDisplay() {
                                         <p class="card-text">
                                             direction -> ${transitData.streetcar[unit].direction === 1 ? 'main street' : 'high park'}
                                         </p>
-                                        <p id="card-delay-${unit}" class="card-text">
-                                            delay -> ${(Number(transitData.streetcar[unit].delay) < 0 ? `${Math.abs(Number(transitData.streetcar[unit].delay))}s early` : `${transitData.streetcar[unit].delay}s late`)}
-                                        </p>
                                         <a onClick="setBounds(${transitData.streetcar[unit].location[0]}, ${transitData.streetcar[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
                                     </div>
                                 </div>

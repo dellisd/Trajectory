@@ -2,6 +2,7 @@ const OBJLoader = require('@loaders.gl/obj').OBJLoader
 const load = require('@loaders.gl/core').load
 const SimpleMeshLayer = require('@deck.gl/mesh-layers').SimpleMeshLayer
 const MapboxLayer = require('@deck.gl/mapbox').MapboxLayer
+const turf = require('@turf/turf')
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjam9obzZpMDQwMGQ0M2tsY280OTh2M2o5In0.XtnbkAMU7nIMkq7amsiYdw'
 //mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjandmbGc5MG8xZGg1M3pudXl6dTQ3NHhtIn0.6eYbb2cN8YUexz_F0ZCqUQ';
@@ -54,6 +55,8 @@ let count = 0;
 
 let train, bus, streetcar, subway;
 
+let lakeshoreEast
+
 async function loadObj(callback) {
     const data = await load('data/coach.obj', OBJLoader)
     callback(data)
@@ -70,11 +73,13 @@ function setupDataDisplay() {
         }
     }
 
-    loadJson('data/train.geojson', (data) => {
+    loadJson('data/tracks.geojson', (data) => {
         map.addSource('train', {
             type: 'geojson',
             data: data
         });
+
+        lakeshoreEast = data.features[0]
 
         map.addLayer({
             id: "train",
@@ -97,32 +102,45 @@ function setupDataDisplay() {
 
             ws.addEventListener('message', (event) => {
                 console.log(event.data)
-                for (let train of JSON.parse(event.data).streetcar) {
-                    if (map.getLayer(`train-${train.id}`) == null) {
-                        let layer = new MapboxLayer({
-                            type: SimpleMeshLayer,
-                            data: [
-                                {
-                                    position: [train.location[1], train.location[0]],
-                                    angle: train.angle
-                                }
-                            ],
-                            id: `train-${train.id}`,
-                            mesh: data,
-                            getColor: [255, 0, 0],
-                        })
-                        map.addLayer(layer)
-                    } else {
-                        let layer = map.getLayer(`train-${train.id}`)
+                let lineString = turf.lineString(lakeshoreEast.geometry.coordinates[0])
 
-                        layer.setProps({
-                            data: {
-                                position: [train.location[1], train.location[0]],
-                                angle: train.angle
-                            }
+                let trainData = JSON.parse(event.data).train.flatMap((train) => {
+                    let nearestPoint = turf.nearestPointOnLine(lineString, [train.location[1], train.location[0]]).geometry.coordinates
+                    let distance = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
+
+                    let output = []
+                    let start = distance
+                    let end = distance + 0.01
+                    for (let i = 0; i < 12; i++) {
+                        let a = turf.along(lineString, start)
+                        let b = turf.along(lineString, end)
+                        let bearing = turf.bearing(a, b)
+
+                        start += 0.02951
+                        end += 0.02951
+
+                        output.push({
+                            position: a.geometry.coordinates,
+                            angle: bearing
                         })
                     }
+                    return output
                 }
+                )
+
+                if (map.getLayer('trains') == null) {
+                    map.addLayer(new MapboxLayer({
+                        type: SimpleMeshLayer,
+                        data: trainData,
+                        id: 'trains',
+                        mesh: data,
+                        getColor: [0, 255, 0]
+                    }))
+                } else {
+                    // TODO: Update
+                }
+
+
             })
         })
     })

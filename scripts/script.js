@@ -56,6 +56,7 @@ let count = 0;
 let train, bus, streetcar, subway;
 
 let lakeshoreEast
+let sc506East, sc506west; // index 1, 0
 
 async function loadObj(callback) {
     const data = await load('data/coach.obj', OBJLoader)
@@ -88,6 +89,9 @@ function setupDataDisplay() {
                 "line-width": 2
             }
         }, firstSymbolId)
+
+        sc506East = data.features[0].geometry.coordinates
+        sc506west = data.features[1].geometry.coordinates
     })
 
     loadJson('data/tracks.geojson', (data) => {
@@ -116,57 +120,8 @@ function setupDataDisplay() {
         var first = false;
         loadObj((data) => {
             const ws = new WebSocket("ws://trajectory.herokuapp.com/")
-            ws.addEventListener('open', (ev) => { 
-                console.log('YEET');
-                console.log(JSON.parse(ev));
-                if (!first) {
-                    document.getElementById('train-car').innerHTML += (`<div class="carousel-item active">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <h4 class="card-title">go train</h4>
-                                <hr style="border-top: 4px solid #256C2F">
-                                <p class="card-text">
-                                    ${2}
-                                </p>
-                                <p class="card-text">
-                                    direction ->
-                                </p>
-                                <p class="card-text">
-                                    next station ->
-                                </p>
-                                <p class="card-text">
-                                    delay
-                                </p>
-                                <a class="btn btn-primary" style="float: right">follow</a>
-                            </div>
-                        </div>
-                    </div>`)
-                    first = true;
-                } else {
-                    document.getElementById('train-car').innerHTML += (`
-                    <div class="carousel-item">
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <h4 class="card-title">go train</h4>
-                                <hr style="border-top: 4px solid #256C2F">
-                                <p class="card-text">
-                                    ${2}
-                                </p>
-                                <p class="card-text">
-                                    direction ->
-                                </p>
-                                <p class="card-text">
-                                    next station ->
-                                </p>
-                                <p class="card-text">
-                                    delay
-                                </p>
-                                <a class="btn btn-primary" style="float: right">follow</a>
-                            </div>
-                        </div>
-                    </div>
-                    `)
-                }
+            ws.addEventListener('open', () => {
+
             })
 
             let oldData
@@ -298,6 +253,12 @@ function setupDataDisplay() {
                         getColor: [255, 0, 0]
                     }))
 
+                    if (sc506East !== undefined) {
+                        var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data)
+                        var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data)
+                        oldData.streetcar = [...a,...b]                    
+                    }
+
                     requestAnimationFrame(callback)
                 }
                 interval = window.requestAnimationFrame(callback)
@@ -332,6 +293,55 @@ function setupDataDisplay() {
             'fill-extrusion-opacity': .6
         }
     }, firstSymbolId);
+}
+
+function animateStreetcars(streetcars, line, id, data) {
+    let lineString = turf.lineString(line)
+
+    streetcars = streetcars.map((train) => {
+        let nearestPoint = turf.nearestPointOnLine(lineString, [train.location[1], train.location[0]]).geometry.coordinates
+
+        if (train.distanceAnim === undefined) {
+            console.log(lineString.geometry.coordinates[0])
+            train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
+        } else {
+            train.distanceAnim += 0.0138888889
+        }
+
+        return train
+    })
+
+    let trainData = streetcars.map((train) => {
+        let distance = train.distanceAnim
+
+        let start = distance
+        let end = distance + 0.001
+        if (start > 0 && end > 0) {
+            let a = turf.along(lineString, start)
+            let b = turf.along(lineString, end)
+            let bearing = turf.bearing(a, b)
+
+            return {
+                position: a.geometry.coordinates,
+                angle: bearing
+            }
+        }
+    }
+    )
+
+    if (map.getLayer('streetcar' + id) != null) {
+        map.removeLayer('streetcar' + id)
+    }
+    map.addLayer(new MapboxLayer({
+        type: SimpleMeshLayer,
+        data: trainData,
+        id: 'streetcar' + id,
+        getOrientation: (obj) => [0, obj.angle, 0],
+        mesh: data,
+        getColor: [255, 0, 0]
+    }))
+
+    return streetcars
 }
 
 function clearData() {

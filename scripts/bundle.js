@@ -23197,8 +23197,8 @@ function toArrayBuffer(buffer) {
   return buffer;
 }
 
-}).call(this,{"isBuffer":require("../../../../../../../../../../AppData/Roaming/npm/node_modules/browserify/node_modules/is-buffer/index.js")})
-},{"../../../../../../../../../../AppData/Roaming/npm/node_modules/browserify/node_modules/is-buffer/index.js":5}],175:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../../../../../../../../AppData/Roaming/npm/node_modules/browserify/node_modules/is-buffer/index.js")})
+},{"../../../../../../../../../AppData/Roaming/npm/node_modules/browserify/node_modules/is-buffer/index.js":5}],175:[function(require,module,exports){
 (function (Buffer){
 "use strict";
 
@@ -67544,27 +67544,6 @@ function setupDataDisplay() {
                     })
 
                     if (map.getLayer('trains') != null) {
-<<<<<<< HEAD
-                        map.removeLayer('trains')
-                    }
-                    map.addLayer(new MapboxLayer({
-                        type: SimpleMeshLayer,
-                        data: trainData,
-                        id: 'trains',
-                        getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
-                        mesh: data,
-                        getColor: [0, 0, 255]
-                    }))
-
-                    try {
-                        if (sc506East !== undefined) {
-                            var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data, delta)
-                            var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
-                            oldData.streetcar = [...a, ...b]
-                        }
-                    } catch (e) {
-                        console.log(e)
-=======
                         map.getLayer('trains').implementation.setProps({ data: trainData })
                     } else {
                         map.addLayer(new MapboxLayer({
@@ -67575,14 +67554,13 @@ function setupDataDisplay() {
                             mesh: data,
                             getColor: [0, 0, 255]
                         }))
->>>>>>> Improve performance of animation
                     }
 
-                    // if (sc506East !== undefined) {
-                    //     var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data, delta)
-                    //     var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
-                    //     oldData.streetcar = [...a, ...b]
-                    // }
+                    if (sc506East !== undefined) {
+                        var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data, delta)
+                        var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
+                        oldData.streetcar = [...a, ...b]
+                    }
 
                     requestAnimationFrame(callback)
                 }
@@ -67847,12 +67825,8 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
 window.setBounds = function (y, x) {
     console.log('TESSSSt', x, y)
     map.fitBounds([
-<<<<<<< HEAD
-        [x - 0.01, y - 0.01],
-        [x + 0.01, y + 0.01]
-=======
+
         [x - 0.01, y - 0.01], [x + 0.01, y + 0.01]
->>>>>>> Improve performance of animation
     ])
 }
 },{"@deck.gl/mapbox":135,"@deck.gl/mesh-layers":137,"@loaders.gl/core":148,"@loaders.gl/obj":224,"@turf/turf":405}]},{},[468]);

@@ -276,7 +276,7 @@ function setupDataDisplay() {
                             getColor: [0, 0, 255]
                         }))
                     }
-                    
+
                     if (sc506East !== undefined) {
                         var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data, delta)
                         var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
@@ -546,11 +546,7 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
 window.setBounds = function (y, x) {
     console.log('TESSSSt', x, y)
     map.fitBounds([
-<<<<<<< HEAD
-        [x - 0.01, y - 0.01],
-        [x + 0.01, y + 0.01]
-=======
+
         [x - 0.01, y - 0.01], [x + 0.01, y + 0.01]
->>>>>>> Improve performance of animation
     ])
 }

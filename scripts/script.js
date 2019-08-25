@@ -168,7 +168,7 @@ function setupDataDisplay() {
                                             ${transitData.train[unit].id}
                                         </p>
                                         <p class="card-text">
-                                            direction ->
+                                            direction -> oshawa
                                         </p>
                                         <p class="card-text">
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
@@ -182,6 +182,31 @@ function setupDataDisplay() {
                             </div>
                             `)
                         }
+                    });
+                    Object.keys(transitData.streetcar).forEach((unit) => {
+                        document.getElementById('train-car').innerHTML += (`
+                            <div class="carousel-item">
+                                <div class="card mb-2">
+                                    <div class="card-body">
+                                        <h4 class="card-title">streetcar</h4>
+                                        <hr style="border-top: 4px solid #F44336">
+                                        <p class="card-text">
+                                            506
+                                        </p>
+                                        <p class="card-text">
+                                            ${transitData.streetcar[unit].id}
+                                        </p>
+                                        <p class="card-text">
+                                            direction -> ${transitData.streetcar[unit].direction === 1 ? 'main street' : 'high park'}
+                                        </p>
+                                        <p id="card-delay-${unit}" class="card-text">
+                                            delay -> ${(Number(transitData.streetcar[unit].delay) < 0 ? `${Math.abs(Number(transitData.streetcar[unit].delay))}s early` : `${transitData.streetcar[unit].delay}s late`)}
+                                        </p>
+                                        <a onClick="setBounds(${transitData.streetcar[unit].location[0]}, ${transitData.streetcar[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
+                                    </div>
+                                </div>
+                            </div>
+                            `)
                     });
                 }
 
@@ -260,8 +285,7 @@ function setupDataDisplay() {
                             var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
                             oldData.streetcar = [...a, ...b]
                         }
-                    }
-                    catch (e) {
+                    } catch (e) {
                         console.log(e)
                     }
 
@@ -522,9 +546,10 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
     // ]);
 }
 
-window.setBounds = function(y, x) {
+window.setBounds = function (y, x) {
     console.log('TESSSSt', x, y)
     map.fitBounds([
-        [x - 0.01, y - 0.01],[x + 0.01, y + 0.01]
+        [x - 0.01, y - 0.01],
+        [x + 0.01, y + 0.01]
     ])
 }

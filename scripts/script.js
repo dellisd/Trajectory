@@ -2,6 +2,7 @@ const OBJLoader = require('@loaders.gl/obj').OBJLoader
 const load = require('@loaders.gl/core').load
 const SimpleMeshLayer = require('@deck.gl/mesh-layers').SimpleMeshLayer
 const MapboxLayer = require('@deck.gl/mapbox').MapboxLayer
+const MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjam9obzZpMDQwMGQ0M2tsY280OTh2M2o5In0.XtnbkAMU7nIMkq7amsiYdw'
 //mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjandmbGc5MG8xZGg1M3pudXl6dTQ3NHhtIn0.6eYbb2cN8YUexz_F0ZCqUQ';
@@ -272,6 +273,11 @@ function loadLine(line, name) {
             window.parent.location.href = `https://www.otrainfans.ca/${e.features[0].properties.url}`
         }
     })
+
+    map.addControl(new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+    }));
 
     let lastFeatureId;
     // Using mousemove is more accurate than mouseenter/mouseleave for hover effects

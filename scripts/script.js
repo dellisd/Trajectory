@@ -97,12 +97,59 @@ function setupDataDisplay() {
         }, firstSymbolId);
 
         var first = false;
-        var loadOnce = false;
-
         loadObj((data) => {
             const ws = new WebSocket("ws://trajectory.herokuapp.com/")
-            ws.addEventListener('open', () => {
-
+            ws.addEventListener('open', (ev) => { 
+                console.log('YEET');
+                console.log(JSON.parse(ev));
+                if (!first) {
+                    document.getElementById('train-car').innerHTML += (`<div class="carousel-item active">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h4 class="card-title">go train</h4>
+                                <hr style="border-top: 4px solid #256C2F">
+                                <p class="card-text">
+                                    ${2}
+                                </p>
+                                <p class="card-text">
+                                    direction ->
+                                </p>
+                                <p class="card-text">
+                                    next station ->
+                                </p>
+                                <p class="card-text">
+                                    delay
+                                </p>
+                                <a class="btn btn-primary" style="float: right">follow</a>
+                            </div>
+                        </div>
+                    </div>`)
+                    first = true;
+                } else {
+                    document.getElementById('train-car').innerHTML += (`
+                    <div class="carousel-item">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h4 class="card-title">go train</h4>
+                                <hr style="border-top: 4px solid #256C2F">
+                                <p class="card-text">
+                                    ${2}
+                                </p>
+                                <p class="card-text">
+                                    direction ->
+                                </p>
+                                <p class="card-text">
+                                    next station ->
+                                </p>
+                                <p class="card-text">
+                                    delay
+                                </p>
+                                <a class="btn btn-primary" style="float: right">follow</a>
+                            </div>
+                        </div>
+                    </div>
+                    `)
+                }
             })
 
             let oldData

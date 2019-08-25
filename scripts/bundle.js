@@ -67395,10 +67395,12 @@ function setupDataDisplay() {
         }
     }
 
-    map.addSource('train', {
-        type: 'geojson',
-        data: 'data/train.geojson'
-    });
+    loadJson('data/train.geojson', (data) => {
+        map.addSource('train', {
+            type: 'geojson',
+            data: data
+        });
+    })
 
     map.addLayer({
         id: "train",
@@ -67605,30 +67607,12 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
     })
 }
 
-// Toggle the map between light and dark modes
-document.getElementById('dark-toggle').addEventListener('click', () => {
-    if (toggleOptions.dark && !toggleOptions.satellite) {
-        loadMap('mapbox://styles/mapbox/light-v9')
-        document.getElementById('toggle-container').classList.remove('dark')
-    } else {
-        loadMap('mapbox://styles/mapbox/dark-v9')
-        document.getElementById('toggle-container').classList.add('dark')
-    }
-    toggleOptions.satellite = false;
-    toggleOptions.dark = !toggleOptions.dark;
+const ws = new WebSocket("ws://192.168.1.144:8080")
+ws.addEventListener('open', () => {
+    
 })
 
-// Toggle the map between satellite mode and whatever light/dark mode was previously active
-document.getElementById('satellite-toggle').addEventListener('click', () => {
-    if (toggleOptions.satellite) {
-        if (toggleOptions.dark) {
-            loadMap('mapbox://styles/mapbox/light-v9')
-        } else {
-            loadMap('mapbox://styles/mapbox/dark-v9')
-        }
-    } else {
-        loadMap('mapbox://styles/mapbox/satellite-streets-v9')
-    }
-    toggleOptions.satellite = !toggleOptions.satellite;
+ws.addEventListener('message', (event) => { 
+    console.log(event.data)
 })
 },{"@deck.gl/mapbox":135,"@deck.gl/mesh-layers":137,"@loaders.gl/core":148,"@loaders.gl/obj":224}]},{},[467]);

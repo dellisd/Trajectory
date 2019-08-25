@@ -67396,9 +67396,8 @@ function setupDataDisplay() {
             }
         }, firstSymbolId);
 
+        let loadOnce = false;
         var first = false;
-        var loadOnce = false;
-
         loadObj((data) => {
             const ws = new WebSocket("ws://trajectory.herokuapp.com/")
             ws.addEventListener('open', () => {
@@ -67430,15 +67429,9 @@ function setupDataDisplay() {
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
                                         <p id="card-delay-${unit}" class="card-text">
-<<<<<<< HEAD
                                             delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}
                                         </p>
                                         <a onClick="setBounds(${transitData.train[unit].location[0]}, ${transitData.train[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
-=======
-                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
-                                        </p>
-                                        <a class="btn btn-primary" style="float: right">follow</a>
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                                     </div>
                                 </div>
                             </div>`)
@@ -67460,13 +67453,9 @@ function setupDataDisplay() {
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
                                         <p id="card-delay-${unit}" class="card-text">
-<<<<<<< HEAD
                                             delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}
-=======
-                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                                         </p>
-                                        <a class="btn btn-primary" style="float: right">follow</a>
+                                        <a onClick="setBounds(${transitData.train[unit].location[0]}, ${transitData.train[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
                                     </div>
                                 </div>
                             </div>
@@ -67476,18 +67465,9 @@ function setupDataDisplay() {
                 }
 
                 loadOnce = true;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> Fix streetcars
                 Object.keys(transitData.train).forEach((unit) => {
                     document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}`;
-=======
-                
-                Object.keys(transitData.train).forEach((unit) => {
-                    document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}`;
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                 })
 
                 if (interval !== undefined) {
@@ -67509,17 +67489,6 @@ function setupDataDisplay() {
                             console.log(lineString.geometry.coordinates[0])
                             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
                         } else {
-<<<<<<< HEAD
-                            let endTime = Date.now()
-<<<<<<< HEAD
-                            let delta = startTime - endTime
-                            startTime = endTime
-=======
->>>>>>> Fix streetcars
-=======
-                            let delta = endTime - startTime
-                            startTime = endTime
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                             let speed = train.distance / (Math.abs(train.arrivalTime - Date.now()) / 1000)
                             train.distanceAnim += speed * delta / 1000
                         }
@@ -67548,39 +67517,9 @@ function setupDataDisplay() {
                                 })
                             }
                         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
-                        // console.log(train.distanceAnim)
-
-=======
->>>>>>> Fixed train speed
-=======
-=======
-                        // console.log(train.distanceAnim)
-
->>>>>>> works
->>>>>>> works
 
                         return output
                     })
-=======
-                        // console.log(train.distanceAnim)
-
-=======
->>>>>>> Fix streetcars
-
-                        return output
-                    }
-                    )
-<<<<<<< HEAD
->>>>>>> Add streetcar tracks
-=======
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
 
                     if (map.getLayer('trains') != null) {
                         map.removeLayer('trains')
@@ -67589,20 +67528,9 @@ function setupDataDisplay() {
                         type: SimpleMeshLayer,
                         data: trainData,
                         id: 'trains',
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        getOrientation: (obj) => [0, obj.angle, 0],
-                        mesh: data,
-                        getColor: [Math.random() * 255, Math.random() * 255, Math.random() * 255]
-=======
                         getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
                         mesh: data,
-<<<<<<< HEAD
-                        getColor: [255, 0, 0]
->>>>>>> Add streetcar tracks
-=======
                         getColor: [0, 0, 255]
->>>>>>> Fix streetcars
                     }))
 
                     try {
@@ -67614,32 +67542,11 @@ function setupDataDisplay() {
                     }
                     catch (e) {
                         console.log(e)
-=======
-                        getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
-                        mesh: data,
-                        getColor: [255, 0, 0]
-                    }))
-
-                    if (sc506East !== undefined) {
-                        var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data)
-                        var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data)
-                        oldData.streetcar = [...a,...b]                    
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
                     }
 
                     requestAnimationFrame(callback)
                 }
                 interval = window.requestAnimationFrame(callback)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-                // console.log(event.data)
->>>>>>> works
-=======
->>>>>>> Add streetcar tracks
-=======
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
             })
         })
     })
@@ -67673,11 +67580,7 @@ function setupDataDisplay() {
     }, firstSymbolId);
 }
 
-<<<<<<< HEAD
 function animateStreetcars(streetcars, line, id, data, delta) {
-=======
-function animateStreetcars(streetcars, line, id, data) {
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
     let lineString = turf.lineString(line)
 
     streetcars = streetcars.map((train) => {
@@ -67687,11 +67590,7 @@ function animateStreetcars(streetcars, line, id, data) {
             console.log(lineString.geometry.coordinates[0])
             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
         } else {
-<<<<<<< HEAD
             train.distanceAnim += 0.009333 * delta / 1000
-=======
-            train.distanceAnim += 0.0138888889
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
         }
 
         return train
@@ -67712,12 +67611,8 @@ function animateStreetcars(streetcars, line, id, data) {
                 angle: bearing
             }
         }
-    }
-<<<<<<< HEAD
-    ).filter(x => x !== undefined)
-=======
-    )
->>>>>>> 8a9d38fc3d6ae8ab81eb2548287d0bca1502f538
+    }).filter(x => x !== undefined)
+
 
     if (map.getLayer('streetcar' + id) != null) {
         map.removeLayer('streetcar' + id)
@@ -67893,7 +67788,6 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
     map.on('load', () => {
         setupDataDisplay()
     })
-<<<<<<< HEAD
 
     // map.fitBounds([
     //     [
@@ -67913,8 +67807,4 @@ window.setBounds = function(y, x) {
         [x - 0.01, y - 0.01],[x + 0.01, y + 0.01]
     ])
 }
-=======
-}
-
->>>>>>> Add streetcar tracks
 },{"@deck.gl/mapbox":135,"@deck.gl/mesh-layers":137,"@loaders.gl/core":148,"@loaders.gl/obj":224,"@turf/turf":405}]},{},[468]);

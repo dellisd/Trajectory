@@ -67825,7 +67825,6 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
 window.setBounds = function (y, x) {
     console.log('TESSSSt', x, y)
     map.fitBounds([
-
         [x - 0.01, y - 0.01], [x + 0.01, y + 0.01]
     ])
 }

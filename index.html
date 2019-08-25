@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+   <head>
         <meta charset="UTF-8">
         <title>O-Train Map</title>
         <link rel="stylesheet" type="text/css" href="styles/style.css">
@@ -28,53 +28,98 @@
             }
         </style>
     </head>
-
-    <body>
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a class="train-select" href="#">
-                <i name="train" id="train-check" class="far fa-square" onclick="updateActive(this)"
-                    style="margin-right: 14px">
-                </i>go train</a>
-            <a class="gobus-select" href="#">
-                <i name="gobus" id="gobus-check" onclick="updateActive(this)" class="far fa-square"
-                    style="margin-right: 14px">
-                </i>go bus</a>
-            <a class="streetcar-select" href="#">
-                <i name="streetcar" id="streetcar-check" onclick="updateActive(this)" class="far fa-square"
-                    style="margin-right: 14px">
-                </i>streetcar</a>
-            <a class="subway-select" href="#">
-                <i name="subway" id="subway-check" onclick="updateActive(this)" class="far fa-square"
-                    style="margin-right: 14px">
-                </i>subway</a>
-            <a class="bus-select" href="#">
-                <i name="bus" id="bus-check" onclick="updateActive(this)" class="far fa-square"
-                    style="margin-right: 14px">
-                </i>bus</a>
-        </div>
-        <div style="background-color: white">
-            <span
-                style="color: white;font-size:30px;cursor:pointer; float: left; margin-bottom: -55px; z-index: 1; padding-left: 20px; position: absolute;"
-                onclick="openNav()">&#9776;</span>
-        </div>
-        <div id="toggle-container" class="toggles-container">
-            <div class="toggles-style">
-                <>
+        <body>
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <h4 class="side-header">
+                    Active
+                    <br>
+                    transit
+                </h4>
+                <a class="train-select" href="#">
+                    <i name="train" id="train-check" class="far fa-square" onclick="updateActive(this)"
+                        style="margin-right: 14px">
+                    </i>go train
+                </a>
+                <a class="gobus-select" href="#">
+                    <i name="gobus" id="gobus-check" onclick="updateActive(this)" class="far fa-square"
+                        style="margin-right: 14px">
+                    </i>go bus
+                </a>
+                <a class="streetcar-select" href="#">
+                    <i name="streetcar" id="streetcar-check" onclick="updateActive(this)" class="far fa-square"
+                        style="margin-right: 14px">
+                    </i>streetcar
+                </a>
+                <a class="subway-select" href="#">
+                    <i name="subway" id="subway-check" onclick="updateActive(this)" class="far fa-square"
+                        style="margin-right: 14px">
+                    </i>subway
+                </a>
+                <a class="bus-select" href="#">
+                    <i name="bus" id="bus-check" onclick="updateActive(this)" class="far fa-square"
+                        style="margin-right: 14px">
+                    </i>bus
+                </a>
             </div>
-        </div>
-        <div id='map-container' style='width: 100%; height: 100%; z-index: 0'></div>
-        <script src="scripts/bundle.js"></script>
-        <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "300px";
-            }
+            <div style="background-color: white">
+                <span id="burger"
+                    style="color: white;font-size:30px;cursor:pointer; float: left; margin-bottom: -55px; z-index: 1; padding-left: 20px; position: absolute;"
+                    onclick="openNav()">&#9776;</span>
+            </div>
+            <div id="toggle-container" class="toggles-container">
+                <div class="md-form active-cyan-2 mb-3">
+                    <button type="button" class="btn btn-outline search-box" style="float: right">
+                        <i onclick="searchLocation()" class="fa fa-search search-icon"></i>
+                    </button>
+                    <input class="form-control search-city" type="text" placeholder="search" aria-label="Search"
+                        style="float: right;">
+                </div>
+            </div>
+            <div id='map-container' style='width: 100%; height: 100%; z-index: 0'></div>
+            <div id="multi-item-example" class="carousel slide carousel-multi-item info-container" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h4 class="card-title">Card title</h4>
+                                <p class="card-text">
+                                    hi
+                                </p>
+                                <a class="btn btn-primary">Button</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h4 class="card-title">Card title</h4>
+                                <p class="card-text">hi</p>
+                                <a class="btn btn-primary">Button</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="controls" style="float: right">
+                    <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i
+                            class="fas fa-chevron-left"></i></a>
+                    <a class="btn-floating" href="#multi-item-example" data-slide="next"><i
+                            class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            <script src="scripts/bundle.js"></script>
+            <script>
+                function openNav() {
+                    document.getElementById("mySidenav").style.width = "300px";
+                    document.getElementById("burger").hidden = true;
+                }
 
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-            }
-        </script>
-        <script src="scripts/check.js"></script>
-    </body>
+                function closeNav() {
+                    document.getElementById("mySidenav").style.width = "0";
+                    document.getElementById("burger").hidden = false;
+                }
+            </script>
+            <script src="scripts/check.js"></script>
+        </body>
 
 </html>

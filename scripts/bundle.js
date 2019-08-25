@@ -67379,49 +67379,75 @@ function setupDataDisplay() {
             const ws = new WebSocket("ws://trajectory.herokuapp.com/")
             ws.addEventListener('open', () => { })
 
+            let oldData
+            let interval
+
             ws.addEventListener('message', (event) => {
-                console.log(event.data)
-                let lineString = turf.lineString(lakeshoreEast.geometry.coordinates[0])
-
-                let trainData = JSON.parse(event.data).train.flatMap((train) => {
-                    let nearestPoint = turf.nearestPointOnLine(lineString, [train.location[1], train.location[0]]).geometry.coordinates
-                    let distance = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
-
-                    let output = []
-                    let start = distance
-                    let end = distance + 0.01
-                    for (let i = 0; i < 12; i++) {
-                        let a = turf.along(lineString, start)
-                        let b = turf.along(lineString, end)
-                        let bearing = turf.bearing(a, b)
-
-                        start += 0.02951
-                        end += 0.02951
-
-                        output.push({
-                            position: a.geometry.coordinates,
-                            angle: bearing
-                        })
-                    }
-
-
-                    return output
+                if (interval !== undefined) {
+                    window.cancelAnimationFrame(interval)
                 }
-                )
+                oldData = JSON.parse(event.data)
+                let startTime = Date.now()
+                callback = () => {
+                    let lineString = turf.lineString(lakeshoreEast.geometry.coordinates[0])
 
-                if (map.getLayer('trains') == null) {
+                    let trainData = oldData.train.map((train) => {
+                        let nearestPoint = turf.nearestPointOnLine(lineString, [train.location[1], train.location[0]]).geometry.coordinates
+
+                        if (train.distanceAnim === undefined) {
+                            train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
+                        } else {
+                            let endTime = Date.now()
+                            let delta = startTime - endTime 
+                            startTime = endTime
+                            let speed = train.distance / ((new Date(train.arrivalTime) - Date.now()) * 1000)
+                            train.distanceAnim = speed * delta * 1000
+                        }
+
+                        return train
+                    }).flatMap((train) => {
+                        let distance = train.distanceAnim
+                
+                        let output = []
+                        let start = distance
+                        let end = distance + 0.01
+                        for (let i = 0; i < 12; i++) {
+                            let a = turf.along(lineString, start)
+                            let b = turf.along(lineString, end)
+                            let bearing = turf.bearing(a, b)
+
+                            start += 0.02951
+                            end += 0.02951
+
+                            output.push({
+                                position: a.geometry.coordinates,
+                                angle: bearing
+                            })
+                        }
+                        console.log(train.distanceAnim)
+
+
+                        return output
+                    }
+                    )
+
+
+                    if (map.getLayer('trains') != null) {
+                        map.removeLayer('trains')
+                    }
                     map.addLayer(new MapboxLayer({
                         type: SimpleMeshLayer,
                         data: trainData,
                         id: 'trains',
+                        getOrientation: (obj) => [0, obj.angle, 0],
                         mesh: data,
                         getColor: [0, 255, 0]
                     }))
-                } else {
-                    // TODO: Update
+
+                    requestAnimationFrame(callback)
                 }
-
-
+                interval = window.requestAnimationFrame(callback)
+                console.log(event.data)
             })
         })
     })

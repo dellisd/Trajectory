@@ -67445,7 +67445,6 @@ function setupDataDisplay() {
                 }
 
                 loadOnce = true;
-
                 Object.keys(transitData.train).forEach((unit) => {
                     document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}`;
                 })
@@ -67498,6 +67497,7 @@ function setupDataDisplay() {
                         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                         // console.log(train.distanceAnim)
 
 =======
@@ -67511,6 +67511,14 @@ function setupDataDisplay() {
 
                         return output
                     })
+=======
+                        // console.log(train.distanceAnim)
+
+
+                        return output
+                    }
+                    )
+>>>>>>> Add streetcar tracks
 
                     if (map.getLayer('trains') != null) {
                         map.removeLayer('trains')
@@ -67519,18 +67527,27 @@ function setupDataDisplay() {
                         type: SimpleMeshLayer,
                         data: trainData,
                         id: 'trains',
+<<<<<<< HEAD
                         getOrientation: (obj) => [0, obj.angle, 0],
                         mesh: data,
                         getColor: [Math.random() * 255, Math.random() * 255, Math.random() * 255]
+=======
+                        getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
+                        mesh: data,
+                        getColor: [255, 0, 0]
+>>>>>>> Add streetcar tracks
                     }))
 
                     requestAnimationFrame(callback)
                 }
                 interval = window.requestAnimationFrame(callback)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                 // console.log(event.data)
 >>>>>>> works
+=======
+>>>>>>> Add streetcar tracks
             })
         })
     })
@@ -67723,6 +67740,7 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
     map.on('load', () => {
         setupDataDisplay()
     })
+<<<<<<< HEAD
 
     // map.fitBounds([
     //     [
@@ -67742,4 +67760,8 @@ window.setBounds = function(y, x) {
         [x - 0.01, y - 0.01],[x + 0.01, y + 0.01]
     ])
 }
+=======
+}
+
+>>>>>>> Add streetcar tracks
 },{"@deck.gl/mapbox":135,"@deck.gl/mesh-layers":137,"@loaders.gl/core":148,"@loaders.gl/obj":224,"@turf/turf":405}]},{},[468]);

@@ -51,35 +51,35 @@ let train, bus, streetcar, subway;
 
 function setupDataDisplay() {
 
-    loadJson('data/stage2south.json', (data) => {
-        trillium = data;
-        count++;
-        loadLine(data, 'trillium');
-    });
+    // loadJson('data/stage2south.json', (data) => {
+    //     trillium = data;
+    //     count++;
+    //     loadLine(data, 'trillium');
+    // });
 
-    loadJson('data/stage2east.json', (data) => {
-        confederationEast = data;
-        count++;
-        loadLine(data, "confederation-east");
-    });
+    // loadJson('data/stage2east.json', (data) => {
+    //     confederationEast = data;
+    //     count++;
+    //     loadLine(data, "confederation-east");
+    // });
 
-    loadJson('data/stage2west.json', (data) => {
-        confederationWest = data;
-        count++;
-        loadLine(data, "confederation-west");
-    });
+    // loadJson('data/stage2west.json', (data) => {
+    //     confederationWest = data;
+    //     count++;
+    //     loadLine(data, "confederation-west");
+    // });
 
-    loadJson('data/stage1.json', (data) => {
-        confederation = data;
-        count++;
-        loadLine(data, "confederation");
-    });
+    // loadJson('data/stage1.json', (data) => {
+    //     confederation = data;
+    //     count++;
+    //     loadLine(data, "confederation");
+    // });
 
-    loadJson('data/stage3kanata.json', (data) => {
-        kanata = data
-        count++
-        loadLine(data, "kanata")
-    })
+    // loadJson('data/stage3kanata.json', (data) => {
+    //     kanata = data
+    //     count++
+    //     loadLine(data, "kanata")
+    // })
 
 
     let layers = map.getStyle().layers;
@@ -91,66 +91,25 @@ function setupDataDisplay() {
         }
     }
 
-    map.addSource('belfast', {
+    map.addSource('train', {
         type: 'geojson',
-        data: 'data/belfastYard.json'
-    });
-
-    map.addSource('moodie', {
-        type: 'geojson',
-        data: 'data/moodieYard.json'
-    });
-
-    map.addSource('walkley', {
-        type: 'geojson',
-        data: 'data/walkleyYard.json'
+        data: 'data/train.geojson'
     });
 
     map.addLayer({
-        id: "belfast",
+        id: "train",
         type: "line",
-        source: 'belfast',
+        source: 'train',
         filter: ['!=', 'name', 'Outline'],
         layout: {
             "line-join": "round",
             "line-cap": "round"
         },
         paint: {
-            "line-color": ['get', 'color'],
+            "line-color": '#256C2F',
             "line-width": 2
         }
     }, firstSymbolId);
-
-    map.addLayer({
-        id: "moodie",
-        type: "line",
-        source: 'moodie',
-        filter: ['!=', 'name', 'Outline'],
-        layout: {
-            "line-join": "round",
-            "line-cap": "round"
-        },
-        paint: {
-            "line-color": ['get', 'color'],
-            "line-width": 2
-        }
-    }, firstSymbolId);
-
-    map.addLayer({
-        id: "walkley",
-        type: "line",
-        source: 'walkley',
-        filter: ['!=', 'name', 'Outline'],
-        layout: {
-            "line-join": "round",
-            "line-cap": "round"
-        },
-        paint: {
-            "line-color": ['get', 'color'],
-            "line-width": 2
-        }
-    }, firstSymbolId);
-
 
     map.addLayer({
         'id': '3d-buildings',

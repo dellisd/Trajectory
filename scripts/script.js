@@ -73,6 +73,23 @@ function setupDataDisplay() {
         }
     }
 
+    loadJson('data/streetcars.geojson', (data) => {
+        map.addSource('streetcar', {
+            type: 'geojson',
+            data: data
+        })
+
+        map.addLayer({
+            id: 'streetcar',
+            type: 'line',
+            source: 'streetcar',
+            paint: {
+                "line-color": '#F44336',
+                "line-width": 2
+            }
+        }, firstSymbolId)
+    })
+
     loadJson('data/tracks.geojson', (data) => {
         map.addSource('train', {
             type: 'geojson',
@@ -229,7 +246,7 @@ function setupDataDisplay() {
                         type: SimpleMeshLayer,
                         data: trainData,
                         id: 'trains',
-                        getOrientation: (obj) => [0, obj.angle - 90, 0],
+                        getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
                         mesh: data,
                         getColor: [255, 0, 0]
                     }))

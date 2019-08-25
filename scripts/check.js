@@ -1,5 +1,5 @@
 const vehicles = {
-  train: false,
+  train: true,
   gobus: false,
   streetcar: false,
   subway: false,

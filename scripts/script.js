@@ -54,61 +54,12 @@ let count = 0;
 
 let train, bus, streetcar, subway;
 
-async function loadObj() {
+async function loadObj(callback) {
     const data = await load('data/coach.obj', OBJLoader)
-    map.addLayer(new MapboxLayer({
-        type: SimpleMeshLayer,
-        data: [
-            {
-                position: [-79.368624, 43.646828],
-                angle: -15
-            },
-            {
-                position: [-79.36863, 43.646828],
-                angle: -15
-            }
-        ],
-        id: 'mesh',
-        mesh: data,
-        getColor: [255, 0, 0],
-    }))
-
-    console.log(data)
+    callback(data)
 }
 
 function setupDataDisplay() {
-
-    // loadJson('data/stage2south.json', (data) => {
-    //     trillium = data;
-    //     count++;
-    //     loadLine(data, 'trillium');
-    // });
-
-    // loadJson('data/stage2east.json', (data) => {
-    //     confederationEast = data;
-    //     count++;
-    //     loadLine(data, "confederation-east");
-    // });
-
-    // loadJson('data/stage2west.json', (data) => {
-    //     confederationWest = data;
-    //     count++;
-    //     loadLine(data, "confederation-west");
-    // });
-
-    // loadJson('data/stage1.json', (data) => {
-    //     confederation = data;
-    //     count++;
-    //     loadLine(data, "confederation");
-    // });
-
-    // loadJson('data/stage3kanata.json', (data) => {
-    //     kanata = data
-    //     count++
-    //     loadLine(data, "kanata")
-    // })
-
-    loadObj()
 
     let layers = map.getStyle().layers;
     // Find the index of the first symbol layer in the map style
@@ -124,22 +75,57 @@ function setupDataDisplay() {
             type: 'geojson',
             data: data
         });
-    })
 
-    map.addLayer({
-        id: "train",
-        type: "line",
-        source: 'train',
-        filter: ['!=', 'name', 'Outline'],
-        layout: {
-            "line-join": "round",
-            "line-cap": "round"
-        },
-        paint: {
-            "line-color": '#256C2F',
-            "line-width": 2
-        }
-    }, firstSymbolId);
+        map.addLayer({
+            id: "train",
+            type: "line",
+            source: 'train',
+            filter: ['!=', 'name', 'Outline'],
+            layout: {
+                "line-join": "round",
+                "line-cap": "round"
+            },
+            paint: {
+                "line-color": '#256C2F',
+                "line-width": 2
+            }
+        }, firstSymbolId);
+
+        loadObj((data) => {
+            const ws = new WebSocket("ws://trajectory.herokuapp.com/")
+            ws.addEventListener('open', () => { })
+
+            ws.addEventListener('message', (event) => {
+                console.log(event.data)
+                for (let train of JSON.parse(event.data).streetcar) {
+                    if (map.getLayer(`train-${train.id}`) == null) {
+                        let layer = new MapboxLayer({
+                            type: SimpleMeshLayer,
+                            data: [
+                                {
+                                    position: [train.location[1], train.location[0]],
+                                    angle: train.angle
+                                }
+                            ],
+                            id: `train-${train.id}`,
+                            mesh: data,
+                            getColor: [255, 0, 0],
+                        })
+                        map.addLayer(layer)
+                    } else {
+                        let layer = map.getLayer(`train-${train.id}`)
+
+                        layer.setProps({
+                            data: {
+                                position: [train.location[1], train.location[0]],
+                                angle: train.angle
+                            }
+                        })
+                    }
+                }
+            })
+        })
+    })
 
     map.addLayer({
         'id': '3d-buildings',
@@ -330,12 +316,3 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
         setupDataDisplay()
     })
 }
-
-const ws = new WebSocket("ws://192.168.1.144:8080")
-ws.addEventListener('open', () => {
-    
-})
-
-ws.addEventListener('message', (event) => { 
-    console.log(event.data)
-})

@@ -7,7 +7,6 @@ const vehicles = {
 }
 
 const updateVisuals = () => {
-  console.log(vehicles);
   Object.keys(vehicles).forEach((entry) => {
     if (vehicles[entry] === true) {
       document.getElementById(`${entry}-check`).className="fas fa-square";

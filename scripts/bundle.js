@@ -67358,7 +67358,7 @@ function setupDataDisplay() {
             data: data
         });
 
-        lakeshoreEast = data.features[0]
+        lakeshoreEast = data.features[1]
 
         map.addLayer({
             id: "train",
@@ -67391,46 +67391,48 @@ function setupDataDisplay() {
                 callback = () => {
                     let lineString = turf.lineString(lakeshoreEast.geometry.coordinates[0])
 
-                    let trainData = oldData.train.map((train) => {
+                    oldData.train = oldData.train.map((train) => {
                         let nearestPoint = turf.nearestPointOnLine(lineString, [train.location[1], train.location[0]]).geometry.coordinates
 
                         if (train.distanceAnim === undefined) {
+                            console.log(lineString.geometry.coordinates[0])
                             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
                         } else {
                             let endTime = Date.now()
-                            let delta = startTime - endTime 
+                            let delta = endTime - startTime
                             startTime = endTime
-                            let speed = train.distance / ((new Date(train.arrivalTime) - Date.now()) * 1000)
-                            train.distanceAnim = speed * delta * 1000
+                            let speed = train.distance / (Math.abs(train.arrivalTime - Date.now()) / 1000)
+                            train.distanceAnim += speed * delta / 1000
                         }
 
                         return train
-                    }).flatMap((train) => {
+                    })
+
+                    let trainData = oldData.train.flatMap((train) => {
                         let distance = train.distanceAnim
-                
+
                         let output = []
                         let start = distance
-                        let end = distance + 0.01
-                        for (let i = 0; i < 12; i++) {
-                            let a = turf.along(lineString, start)
-                            let b = turf.along(lineString, end)
-                            let bearing = turf.bearing(a, b)
+                        let end = distance + 0.001
+                        if (start > 0 && end > 0) {
+                            for (let i = 0; i < 12; i++) {
+                                let a = turf.along(lineString, start)
+                                let b = turf.along(lineString, end)
+                                let bearing = turf.bearing(a, b)
 
-                            start += 0.02951
-                            end += 0.02951
+                                start += 0.02951
+                                end += 0.02951
 
-                            output.push({
-                                position: a.geometry.coordinates,
-                                angle: bearing
-                            })
+                                output.push({
+                                    position: a.geometry.coordinates,
+                                    angle: bearing
+                                })
+                            }
                         }
-                        console.log(train.distanceAnim)
-
 
                         return output
                     }
                     )
-
 
                     if (map.getLayer('trains') != null) {
                         map.removeLayer('trains')
@@ -67441,7 +67443,7 @@ function setupDataDisplay() {
                         id: 'trains',
                         getOrientation: (obj) => [0, obj.angle, 0],
                         mesh: data,
-                        getColor: [0, 255, 0]
+                        getColor: [Math.random() * 255, Math.random() * 255, Math.random() * 255]
                     }))
 
                     requestAnimationFrame(callback)

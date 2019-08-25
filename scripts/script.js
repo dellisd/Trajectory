@@ -276,9 +276,9 @@ function setupDataDisplay() {
                         type: SimpleMeshLayer,
                         data: trainData,
                         id: 'trains',
-                        getOrientation: (obj) => [0, obj.angle, 0],
+                        getOrientation: (obj) => [0, obj.angle - 90, 0],
                         mesh: data,
-                        getColor: [Math.random() * 255, Math.random() * 255, Math.random() * 255]
+                        getColor: [255, 0, 0]
                     }))
 
                     requestAnimationFrame(callback)

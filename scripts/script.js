@@ -120,7 +120,7 @@ function setupDataDisplay() {
         let loadOnce = false;
         var first = false;
         loadObj((data) => {
-            const ws = new WebSocket("ws://trajectory.herokuapp.com/")
+            const ws = new WebSocket("wss://trajectory.herokuapp.com/")
             ws.addEventListener('open', () => {
 
             })

@@ -1,3 +1,8 @@
+const OBJLoader = require('@loaders.gl/obj').OBJLoader
+const load = require('@loaders.gl/core').load
+const SimpleMeshLayer = require('@deck.gl/mesh-layers').SimpleMeshLayer
+const MapboxLayer = require('@deck.gl/mapbox').MapboxLayer
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjam9obzZpMDQwMGQ0M2tsY280OTh2M2o5In0.XtnbkAMU7nIMkq7amsiYdw'
 //mapboxgl.accessToken = 'pk.eyJ1IjoiZGVsbGlzZCIsImEiOiJjandmbGc5MG8xZGg1M3pudXl6dTQ3NHhtIn0.6eYbb2cN8YUexz_F0ZCqUQ';
 // let map = null = new mapboxgl.Map({
@@ -49,6 +54,28 @@ let count = 0;
 
 let train, bus, streetcar, subway;
 
+async function loadObj() {
+    const data = await load('data/coach.obj', OBJLoader)
+    map.addLayer(new MapboxLayer({
+        type: SimpleMeshLayer,
+        data: [
+            {
+                position: [-79.368624, 43.646828],
+                angle: -15
+            },
+            {
+                position: [-79.36863, 43.646828],
+                angle: -15
+            }
+        ],
+        id: 'mesh',
+        mesh: data,
+        getColor: [255, 0, 0],
+    }))
+
+    console.log(data)
+}
+
 function setupDataDisplay() {
 
     // loadJson('data/stage2south.json', (data) => {
@@ -81,6 +108,7 @@ function setupDataDisplay() {
     //     loadLine(data, "kanata")
     // })
 
+    loadObj()
 
     let layers = map.getStyle().layers;
     // Find the index of the first symbol layer in the map style

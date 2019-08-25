@@ -149,7 +149,7 @@ function setupDataDisplay() {
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
                                         <p id="card-delay-${unit}" class="card-text">
-                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
+                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}
                                         </p>
                                         <a onClick="setBounds(${transitData.train[unit].location[0]}, ${transitData.train[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
                                     </div>
@@ -173,7 +173,7 @@ function setupDataDisplay() {
                                             next station -> ${transitData.train[unit].nextStation.toLowerCase()}
                                         </p>
                                         <p id="card-delay-${unit}" class="card-text">
-                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
+                                            delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}
                                         </p>
                                         <a onClick="setBounds(${transitData.train[unit].location[0]}, ${transitData.train[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
                                     </div>
@@ -187,7 +187,7 @@ function setupDataDisplay() {
                 loadOnce = true;
 
                 Object.keys(transitData.train).forEach((unit) => {
-                    document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}`;
+                    document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late`)}`;
                 })
 
                 if (interval !== undefined) {
@@ -196,6 +196,10 @@ function setupDataDisplay() {
                 oldData = JSON.parse(event.data)
                 let startTime = Date.now()
                 callback = () => {
+                    let endTime = Date.now()
+                    let delta = endTime - startTime
+                    startTime = endTime
+
                     let lineString = turf.lineString(lakeshoreEast.geometry.coordinates[0])
 
                     oldData.train = oldData.train.map((train) => {
@@ -205,10 +209,6 @@ function setupDataDisplay() {
                             console.log(lineString.geometry.coordinates[0])
                             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
                         } else {
-                            let endTime = Date.now()
-
-                            let delta = endTime - startTime
-                            startTime = endTime
                             let speed = train.distance / (Math.abs(train.arrivalTime - Date.now()) / 1000)
                             train.distanceAnim += speed * delta / 1000
                         }
@@ -250,13 +250,18 @@ function setupDataDisplay() {
                         id: 'trains',
                         getOrientation: (obj) => [0, turf.degreesToRadians(obj.angle), 0],
                         mesh: data,
-                        getColor: [255, 0, 0]
+                        getColor: [0, 0, 255]
                     }))
 
-                    if (sc506East !== undefined) {
-                        var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data)
-                        var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data)
-                        oldData.streetcar = [...a,...b]                    
+                    try {
+                        if (sc506East !== undefined) {
+                            var a = animateStreetcars(oldData.streetcar.filter(x => x.direction == 0), sc506west, "0", data, delta)
+                            var b = animateStreetcars(oldData.streetcar.filter(x => x.direction == 1), sc506west, "1", data, delta)
+                            oldData.streetcar = [...a, ...b]
+                        }
+                    }
+                    catch (e) {
+                        console.log(e)
                     }
 
                     requestAnimationFrame(callback)
@@ -295,7 +300,7 @@ function setupDataDisplay() {
     }, firstSymbolId);
 }
 
-function animateStreetcars(streetcars, line, id, data) {
+function animateStreetcars(streetcars, line, id, data, delta) {
     let lineString = turf.lineString(line)
 
     streetcars = streetcars.map((train) => {
@@ -305,7 +310,7 @@ function animateStreetcars(streetcars, line, id, data) {
             console.log(lineString.geometry.coordinates[0])
             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
         } else {
-            train.distanceAnim += 0.0138888889
+            train.distanceAnim += 0.009333 * delta / 1000
         }
 
         return train
@@ -327,7 +332,7 @@ function animateStreetcars(streetcars, line, id, data) {
             }
         }
     }
-    )
+    ).filter(x => x !== undefined)
 
     if (map.getLayer('streetcar' + id) != null) {
         map.removeLayer('streetcar' + id)

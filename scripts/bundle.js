@@ -67380,8 +67380,8 @@ function setupDataDisplay() {
 
         loadObj((data) => {
             const ws = new WebSocket("ws://trajectory.herokuapp.com/")
-            ws.addEventListener('open', () => { 
-            
+            ws.addEventListener('open', () => {
+
             })
 
             let oldData
@@ -67411,7 +67411,7 @@ function setupDataDisplay() {
                                         <p id="card-delay-${unit}" class="card-text">
                                             delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}
                                         </p>
-                                        <a class="btn btn-primary" style="float: right">follow</a>
+                                        <a onClick="setBounds(${transitData.train[unit].location[0]}, ${transitData.train[unit].location[1]})" class="btn btn-primary" style="float: right">follow</a>
                                     </div>
                                 </div>
                             </div>`)
@@ -67445,7 +67445,7 @@ function setupDataDisplay() {
                 }
 
                 loadOnce = true;
-                
+
                 Object.keys(transitData.train).forEach((unit) => {
                     document.getElementById(`card-delay-${unit}`).innerText = `delay -> ${(Number(transitData.train[unit].delay) < 0 ? `${Math.abs(Number(transitData.train[unit].delay))}s early` : `${transitData.train[unit].delay}s late` )}`;
                 })
@@ -67465,7 +67465,7 @@ function setupDataDisplay() {
                             train.distanceAnim = turf.length(turf.lineSlice(lineString.geometry.coordinates[0], nearestPoint, lineString))
                         } else {
                             let endTime = Date.now()
-                            let delta = startTime - endTime 
+                            let delta = startTime - endTime
                             startTime = endTime
                             let speed = train.distance / ((new Date(train.arrivalTime) - Date.now()) * 1000)
                             train.distanceAnim = speed * delta * 1000
@@ -67474,7 +67474,7 @@ function setupDataDisplay() {
                         return train
                     }).flatMap((train) => {
                         let distance = train.distanceAnim
-                
+
                         let output = []
                         let start = distance
                         let end = distance + 0.01
@@ -67495,8 +67495,7 @@ function setupDataDisplay() {
 
 
                         return output
-                    }
-                    )
+                    })
 
 
                     if (map.getLayer('trains') != null) {
@@ -67706,6 +67705,23 @@ function loadMap(style = "mapbox://styles/mapbox/dark-v9") {
     map.on('load', () => {
         setupDataDisplay()
     })
+
+    // map.fitBounds([
+    //     [
+    //         32.958984,
+    //         -5.353521
+    //     ],
+    //     [
+    //         43.50585,
+    //         5.615985
+    //     ]
+    // ]);
 }
 
+window.setBounds = function(y, x) {
+    console.log('TESSSSt', x, y)
+    map.fitBounds([
+        [x - 0.01, y - 0.01],[x + 0.01, y + 0.01]
+    ])
+}
 },{"@deck.gl/mapbox":135,"@deck.gl/mesh-layers":137,"@loaders.gl/core":148,"@loaders.gl/obj":224,"@turf/turf":405}]},{},[468]);

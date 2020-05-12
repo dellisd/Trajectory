@@ -1,17 +1,79 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import logo from './assets/trajectory_logo.svg';
+import buttonDown from './assets/button-down.svg';
+import buttonUp from './assets/button-up.svg';
+import GOTrainLight from './assets/gotrain-light.svg';
+import VIALight from './assets/via-light.svg';
+import StreetCarLight from './assets/streetcar-light.svg';
+import SubwayLight from './assets/subway-light.svg';
+import BusLight from './assets/bus-light.svg';
 
-function App() {
+const transitImagesLight: any = {
+  gotrain: GOTrainLight,
+  via: VIALight,
+  streetcar: StreetCarLight,
+  subway: SubwayLight,
+  bus: BusLight
+}
+
+
+const App = () => {
+  const [dropdown, activateDropdown] = useState(true);
+  const [activeTransit, setActiveTransit]: any = useState({
+    goTrain: true,
+    via: true,
+    streetCar: true,
+    subway: true,
+    bus: true
+  });
+  
+  const transitIcon = (transitType: string) => (
+    <div onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} className={`transit-icon-container ${transitType}`}>
+      <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} Icon`} />
+    </div>
+  )
+  
+  const transitOption = (title: string, transitType: string, icon: string) => (
+    <div className="transit-box">
+      {transitIcon(transitType)}
+      <h3 className="transit-header">
+        {title}
+      </h3>
+    </div>
+  )
+
   return (
     <div className="main-container">
-      <div className="logo-container">
-        <img className="logo" src={logo} />
+      <div className="map">
       </div>
-      <div className="side-menu-container">
-        <h2>
-          Welcome to Trajectory
-        </h2>
+      <div className="controls">
+        <div className="side-menu-container">
+          <div className="side-menu-header-container">
+            <div className="side-menu-active-transit">
+              {Object.keys(activeTransit).map((transit: string) => (
+                transitIcon(transit.toLowerCase())
+              ))}
+            </div>
+            <h2 className="side-menu-header">
+              Active transit
+            </h2>
+            <img onClick={() => activateDropdown(!dropdown)} className="side-menu-button" src={dropdown ? buttonUp : buttonDown} alt="dropdown button" />
+          </div>
+          {dropdown && (
+            <div>
+              <hr  className="side-menu-divider" />
+              <div className="side-menu-options">
+                {transitOption('Go Train', 'gotrain', GOTrainLight)}
+                {transitOption('VIA', 'via', VIALight)}
+                {transitOption('Street Car', 'streetcar', StreetCarLight)}
+                {transitOption('Subway', 'subway', SubwayLight)}
+                {transitOption('Bus', 'bus', BusLight)}
+              </div>
+            </div>
+          )}
+        </div>
+        <img alt="Trajectory logo" className="logo" src={logo} />
       </div>
     </div>
   );

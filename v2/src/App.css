@@ -1,5 +1,13 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Sulphur+Point:wght@300;400;700&display=swap');
+
+:root {
+  --green-gotrain: #4a7729;
+  --blue-subway: #2F5DFF;
+  --red-streetcar: #FF292F;
+  --yellow-via: #FFCC00;
+  --purple-bus: #A21A69;
+  --black-box: rgb(0, 0, 0, 0.7)
+}
 
 body,
 h1,
@@ -10,6 +18,7 @@ h5,
 h6 {
   font-family: 'Sulphur Point', sans-serif;
   font-weight: 500;
+  margin: 0;
 }
 
 img {
@@ -29,29 +38,127 @@ div {
 
 .side-menu-container {
   display: block;
-  width: 20%;
-  height: calc(90% - 2rem);
-  background-color: white;
-  border-color: black;
-  border: solid;
-  border-width: 2px;
-  box-shadow: -10px 10px 4px rgb(0, 0, 0, 0.2);
-  border-radius: 2rem;
-  position: absolute;
-  bottom: 2rem;
-  left: 2rem;
-  padding: 2rem;
-}
-
-.logo-container {
+  max-height: calc(90% - 2rem);
+  background-color: var(--black-box);
   position: relative;
-  top: 2rem;
-  left: 2rem;
-  height: 2rem;
-  width: 2rem;
+  top: 0;
+  padding: 2rem;
+  color: white;
+  width: max-content;
 }
 
 .logo {
   width: 6rem;
-  height: 6rem;
+  display: block;
+  position: absolute;
+  bottom: 2rem;
+  right: 50%;
+  left: calc(50% - 3rem);
+}
+
+.side-menu-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.side-menu-divider {
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.side-menu-header {
+  display: block;
+  margin-right: 2rem;
+}
+
+.side-menu-button {
+  display: block;
+  height: 2rem;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  position: absolute;
+}
+
+.controls {
+  height: 100%;
+  width: 100%;
+  padding: 2rem;
+}
+
+.transit-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.transit-box:not(:first-child) {
+  margin-top: 1rem;
+}
+
+.transit-header {
+  display: block;
+  margin-left: 1rem;
+}
+
+.transit-icon {
+  height: 100%;
+  width: 100%;
+}
+
+.transit-icon-container {
+  display: flex;
+  border-radius: 100%;
+  height: 2rem;
+  width: 2rem;
+  padding: 0.4rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-menu-options {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-menu-active-transit {
+  display: flex;
+  flex-direction: row;
+}
+
+.side-menu-active-transit .transit-icon-container:not(:first-child) {
+  margin-left: 1rem;
+}
+
+.side-menu-active-transit .transit-icon-container:last-child {
+  margin-right: 1rem;
+}
+
+.gotrain {
+  background-color: var(--green-gotrain);
+}
+
+.via {
+  background-color: var(--yellow-via);
+}
+
+.streetcar {
+  background-color: var(--red-streetcar);
+}
+
+.subway {
+  background-color: var(--blue-subway);
+}
+
+.bus {
+  background-color: var(--purple-bus);
 }

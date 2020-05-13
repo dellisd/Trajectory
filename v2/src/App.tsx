@@ -17,22 +17,21 @@ const transitImagesLight: any = {
   bus: BusLight
 }
 
-
 const App = () => {
-  const [dropdown, activateDropdown] = useState(true);
+  const [dropdown, activateDropdown] = useState(false);
   const [activeTransit, setActiveTransit]: any = useState({
-    goTrain: true,
+    gotrain: true,
     via: true,
-    streetCar: true,
+    streetcar: true,
     subway: true,
     bus: true
   });
   
   const transitIcon = (transitType: string) => (
-    <div onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} className={`transit-icon-container ${transitType}`}>
+    <div onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}>
       <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} Icon`} />
     </div>
-  )
+  );
   
   const transitOption = (title: string, transitType: string, icon: string) => (
     <div className="transit-box">
@@ -41,25 +40,30 @@ const App = () => {
         {title}
       </h3>
     </div>
-  )
+  );
 
   return (
     <div className="main-container">
       <div className="map">
+
       </div>
       <div className="controls">
         <div className="side-menu-container">
           <div className="side-menu-header-container">
-            <div className="side-menu-active-transit">
-              {Object.keys(activeTransit).map((transit: string) => (
-                transitIcon(transit.toLowerCase())
-              ))}
-            </div>
             <h2 className="side-menu-header">
               Active transit
             </h2>
             <img onClick={() => activateDropdown(!dropdown)} className="side-menu-button" src={dropdown ? buttonUp : buttonDown} alt="dropdown button" />
           </div>
+          {!dropdown && (
+              <div className="side-menu-active-transit">
+                {Object.keys(activeTransit).map((transit: string) => (
+                  activeTransit[transit] && (
+                    transitIcon(transit.toLowerCase())
+                  )
+                ))}
+              </div>
+            )}
           {dropdown && (
             <div>
               <hr  className="side-menu-divider" />

@@ -72,7 +72,7 @@ div {
 
 .side-menu-header {
   display: block;
-  margin-right: 2rem;
+  margin-right: 1rem;
 }
 
 .side-menu-button {
@@ -85,7 +85,7 @@ div {
 .map {
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: orange;
   position: absolute;
 }
 
@@ -123,6 +123,12 @@ div {
   padding: 0.4rem;
   align-items: center;
   justify-content: center;
+  border-width: 2px !important;
+  border-style: solid !important;
+}
+
+.inactive {
+  background-color: transparent !important;
 }
 
 .side-menu-options {
@@ -133,32 +139,35 @@ div {
 .side-menu-active-transit {
   display: flex;
   flex-direction: row;
+  margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .side-menu-active-transit .transit-icon-container:not(:first-child) {
   margin-left: 1rem;
 }
 
-.side-menu-active-transit .transit-icon-container:last-child {
-  margin-right: 1rem;
-}
-
 .gotrain {
   background-color: var(--green-gotrain);
+  border: var(--green-gotrain);
 }
 
 .via {
   background-color: var(--yellow-via);
+  border: var(--yellow-via);
 }
 
 .streetcar {
   background-color: var(--red-streetcar);
+  border: var(--red-streetcar);
 }
 
 .subway {
   background-color: var(--blue-subway);
+  border: var(--blue-subway);
 }
 
 .bus {
   background-color: var(--purple-bus);
+  border: var(--purple-bus);
 }

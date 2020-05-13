@@ -8,6 +8,7 @@ import VIALight from './assets/via-light.svg';
 import StreetCarLight from './assets/streetcar-light.svg';
 import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
+import searchLight from './assets/search-light.svg';
 
 const transitImagesLight: any = {
   gotrain: GOTrainLight,
@@ -22,14 +23,14 @@ const App = () => {
   const [activeTransit, setActiveTransit]: any = useState({
     gotrain: true,
     via: true,
-    streetcar: true,
+    streetcar: false,
     subway: true,
-    bus: true
+    bus: false
   });
   
   const transitIcon = (transitType: string) => (
-    <div onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}>
-      <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} Icon`} />
+    <div key={transitType} onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}>
+      <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} icon`} />
     </div>
   );
   
@@ -45,7 +46,6 @@ const App = () => {
   return (
     <div className="main-container">
       <div className="map">
-
       </div>
       <div className="controls">
         <div className="side-menu-container">
@@ -55,27 +55,24 @@ const App = () => {
             </h2>
             <img onClick={() => activateDropdown(!dropdown)} className="side-menu-button" src={dropdown ? buttonUp : buttonDown} alt="dropdown button" />
           </div>
-          {!dropdown && (
-              <div className="side-menu-active-transit">
-                {Object.keys(activeTransit).map((transit: string) => (
-                  activeTransit[transit] && (
-                    transitIcon(transit.toLowerCase())
-                  )
-                ))}
-              </div>
-            )}
-          {dropdown && (
-            <div>
-              <hr  className="side-menu-divider" />
-              <div className="side-menu-options">
-                {transitOption('Go Train', 'gotrain', GOTrainLight)}
-                {transitOption('VIA', 'via', VIALight)}
-                {transitOption('Street Car', 'streetcar', StreetCarLight)}
-                {transitOption('Subway', 'subway', SubwayLight)}
-                {transitOption('Bus', 'bus', BusLight)}
-              </div>
-            </div>
-          )}
+          <hr  className="side-menu-divider" />
+          <div className={`side-menu-active-transit ${!dropdown ? 'slide-in' : 'slide-out'}`}>
+            {Object.keys(activeTransit).map((transit: string) => (
+              activeTransit[transit] && (
+                transitIcon(transit.toLowerCase())
+              )
+            ))}
+          </div>
+          <div className={`side-menu-options ${!dropdown ? 'hidden' : ''}`}>
+            {transitOption('Go Train', 'gotrain', GOTrainLight)}
+            {transitOption('VIA', 'via', VIALight)}
+            {transitOption('Street Car', 'streetcar', StreetCarLight)}
+            {transitOption('Subway', 'subway', SubwayLight)}
+            {transitOption('Bus', 'bus', BusLight)}
+          </div>
+        </div>
+        <div className="search-icon-container">
+          <img className="transit-icon" src={searchLight} alt="search icon" />
         </div>
         <img alt="Trajectory logo" className="logo" src={logo} />
       </div>

@@ -29,6 +29,10 @@ div {
   box-sizing: border-box;
 }
 
+button:focus {
+  outline: none;
+}
+
 .main-container {
   background-color: white;
   height: 100vh;
@@ -42,9 +46,10 @@ div {
   background-color: var(--black-box);
   position: relative;
   top: 0;
-  padding: 2rem;
+  padding: 1rem;
   color: white;
   width: max-content;
+  border-radius: 1rem;
 }
 
 .logo {
@@ -95,13 +100,14 @@ div {
   padding: 2rem;
 }
 
+.transit-box:first-child {
+  margin-top: 0;
+}
+
 .transit-box {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.transit-box:not(:first-child) {
   margin-top: 1rem;
 }
 
@@ -127,6 +133,19 @@ div {
   border-style: solid !important;
 }
 
+.search-icon-container {
+  display: flex;
+  border-radius: 100%;
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  padding: 0.5rem;
+  background-color: var(--black-box);
+  border: none;
+}
+
 .inactive {
   background-color: transparent !important;
 }
@@ -134,6 +153,14 @@ div {
 .side-menu-options {
   display: flex;
   flex-direction: column;
+  max-height: 300px;
+  height: max-content;
+  overflow: hidden;
+  transition: max-height 750ms ease;
+}
+
+.hidden {
+  max-height: 0px;
 }
 
 .side-menu-active-transit {
@@ -141,6 +168,16 @@ div {
   flex-direction: row;
   margin-top: 1rem;
   flex-wrap: wrap;
+  transition: transform 500ms ease-out;
+}
+
+.slide-in {
+  transform: translateX(0);
+}
+
+.slide-out{
+  transform: translate(calc(-100% - 4rem));
+  height: 0;
 }
 
 .side-menu-active-transit .transit-icon-container:not(:first-child) {

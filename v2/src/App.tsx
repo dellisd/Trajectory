@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { ActiveTransit, TransitIconImages } from './Interfaces';
 import logo from './assets/trajectory_logo.svg';
 import buttonDown from './assets/button-down.svg';
 import GOTrainLight from './assets/gotrain-light.svg';
@@ -26,7 +27,7 @@ const samepleVehicles = [
   },
 ]
 
-const transitImagesLight: any = {
+const transitImagesLight: TransitIconImages = {
   gotrain: GOTrainLight,
   via: VIALight,
   streetcar: StreetCarLight,
@@ -37,7 +38,7 @@ const transitImagesLight: any = {
 const App = () => {
   const [dropdown, activateDropdown] = useState(false);
   const [search, activateSearch] = useState(false);
-  const [activeTransit, setActiveTransit]: any = useState({
+  const [activeTransit, setActiveTransit] = useState<ActiveTransit>({
     gotrain: true,
     via: true,
     streetcar: false,

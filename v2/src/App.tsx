@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import logo from './assets/trajectory_logo.svg';
 import buttonDown from './assets/button-down.svg';
-import buttonUp from './assets/button-up.svg';
 import GOTrainLight from './assets/gotrain-light.svg';
 import VIALight from './assets/via-light.svg';
 import StreetCarLight from './assets/streetcar-light.svg';
@@ -20,6 +19,7 @@ const transitImagesLight: any = {
 
 const App = () => {
   const [dropdown, activateDropdown] = useState(false);
+  const [search, activateSearch] = useState(false);
   const [activeTransit, setActiveTransit]: any = useState({
     gotrain: true,
     via: true,
@@ -27,6 +27,9 @@ const App = () => {
     subway: true,
     bus: false
   });
+  const [currentVehicles, setCurrentVehiclces] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
   
   const transitIcon = (transitType: string) => (
     <div key={transitType} onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}>
@@ -53,7 +56,12 @@ const App = () => {
             <h2 className="side-menu-header">
               Active transit
             </h2>
-            <img onClick={() => activateDropdown(!dropdown)} className="side-menu-button" src={dropdown ? buttonUp : buttonDown} alt="dropdown button" />
+            <img 
+              onClick={() => activateDropdown(!dropdown)} 
+              className={`side-menu-button ${dropdown ? 'dropdown-on' : 'dropdown-off'}`} 
+              src={buttonDown}
+              alt="dropdown button" 
+            />
           </div>
           <hr  className="side-menu-divider" />
           <div className={`side-menu-active-transit ${!dropdown ? 'slide-in' : 'slide-out'}`}>
@@ -71,8 +79,38 @@ const App = () => {
             {transitOption('Bus', 'bus', BusLight)}
           </div>
         </div>
-        <div className="search-icon-container">
-          <img className="transit-icon" src={searchLight} alt="search icon" />
+        <div className="search-container">
+          <div className="search-controls-container">
+            <input 
+              autoFocus={search}
+              onFocus={(e) => e.target.select()}
+              disabled={!search} 
+              className={`search-box ${search ? 'search-box-on' : 'search-box-off'}`} 
+              type="text" placeholder="501 Queens" 
+            />
+            <div className="search-icon-container" onClick={() => activateSearch(!search)}>
+              <img className="transit-icon" src={searchLight} alt="search icon" />
+            </div>
+          </div>
+          {search && (
+            <div className="search-suggestions-container">
+              <p className="search-suggestion">
+                This is a sample and it is very long very very long
+              </p>
+              <p className="search-suggestion">
+                This is a sample and it is very long very very long
+              </p>
+              <p className="search-suggestion">
+                This is a sample and it is very long very very long
+              </p>
+              <p className="search-suggestion">
+                This is a sample and it is very long very very long
+              </p>
+              <p className="search-suggestion">
+                This is a sample and it is very long very very long
+              </p>
+            </div>
+          )}
         </div>
         <img alt="Trajectory logo" className="logo" src={logo} />
       </div>

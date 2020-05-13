@@ -9,6 +9,23 @@ import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
 import searchLight from './assets/search-light.svg';
 
+const samepleVehicles = [
+  {
+    type: 'bus',
+    route: 505,
+    direction: 'Westbound',
+    terminal: `Queen's Park`,
+    delay: 5
+  },
+  {
+    type: 'streetcar',
+    route: 105,
+    direction: 'Northound',
+    terminal: `Queen's Park`,
+    delay: 10
+  },
+]
+
 const transitImagesLight: any = {
   gotrain: GOTrainLight,
   via: VIALight,
@@ -32,7 +49,11 @@ const App = () => {
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   
   const transitIcon = (transitType: string) => (
-    <div key={transitType} onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}>
+    <div 
+      key={transitType} 
+      onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} 
+      className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}
+    >
       <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} icon`} />
     </div>
   );
@@ -111,6 +132,9 @@ const App = () => {
               </p>
             </div>
           )}
+        </div>
+        <div className="vehicle-cards-container">
+          
         </div>
         <img alt="Trajectory logo" className="logo" src={logo} />
       </div>

@@ -53,7 +53,7 @@ const App = () => {
   const transitIcon = (transitType: string) => (
     <div 
       key={transitType} 
-      onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} 
+      onClick={() => setActiveTransit({ ...activeTransit, [`${transitType}`]: !activeTransit[transitType] })} 
       className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}
     >
       <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} icon`} />
@@ -81,20 +81,20 @@ const App = () => {
             </h2>
             <img 
               onClick={() => activateDropdown(!dropdown)} 
-              className={clsx("side-menu-button", {"dropdown-on": dropdown, "dropdown-off": !dropdown})} 
+              className={clsx("side-menu-button", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
               src={buttonDown}
               alt="dropdown button" 
             />
           </div>
           <hr  className="side-menu-divider" />
-          <div className={`side-menu-active-transit ${!dropdown ? 'slide-in' : 'slide-out'}`}>
+          <div className={clsx("side-menu-active-transit", { "slide-in": !dropdown, "slide-out": dropdown })}>
             {Object.keys(activeTransit).map((transit: string) => (
               activeTransit[transit] && (
-                transitIcon(transit.toLowerCase())
+                transitIcon(transit)
               )
             ))}
           </div>
-          <div className={`side-menu-options ${!dropdown ? 'hidden' : ''}`}>
+          <div className={clsx("side-menu-options", { "hidden": !dropdown })}>
             {transitOption('Go Train', 'gotrain', GOTrainLight)}
             {transitOption('VIA', 'via', VIALight)}
             {transitOption('Street Car', 'streetcar', StreetCarLight)}
@@ -108,7 +108,7 @@ const App = () => {
               autoFocus={search}
               onFocus={(e) => e.target.select()}
               disabled={!search} 
-              className={`search-box ${search ? 'search-box-on' : 'search-box-off'}`} 
+              className={clsx("search-box", { "search-box-on": search, "search-box-off": !search })} 
               type="text" placeholder="501 Queens" 
             />
             <div className="search-icon-container" onClick={() => activateSearch(!search)}>

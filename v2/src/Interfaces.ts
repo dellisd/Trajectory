@@ -14,3 +14,10 @@ export interface ActiveTransit {
   bus: boolean
 }
 
+export interface CarouselVehicle {
+  type: 'gotrain' | 'via' | 'streetcar' | 'subway' | 'bus',
+  route: number,
+  direction: 'Northbound' | 'Southbound' | 'Westbound' | 'Eastbound',
+  terminal: string,
+  delay: number
+}

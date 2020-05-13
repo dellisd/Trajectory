@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import clsx from 'clsx';
-import { ActiveTransit, TransitIconImages } from './Interfaces';
+import { ActiveTransit, TransitIconImages, CarouselVehicle } from './Interfaces';
 import logo from './assets/trajectory_logo.svg';
 import buttonDown from './assets/button-down.svg';
 import GOTrainLight from './assets/gotrain-light.svg';
@@ -11,7 +11,7 @@ import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
 import searchLight from './assets/search-light.svg';
 
-const samepleVehicles = [
+const samepleVehicles: CarouselVehicle[] = [
   {
     type: 'bus',
     route: 505,
@@ -22,7 +22,7 @@ const samepleVehicles = [
   {
     type: 'streetcar',
     route: 105,
-    direction: 'Northound',
+    direction: 'Northbound',
     terminal: `Queen's Park`,
     delay: 10
   },

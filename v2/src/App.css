@@ -167,6 +167,7 @@ button:focus {
   margin-top: 1rem;
   flex-wrap: wrap;
   transition: transform 500ms;
+  transition-delay: 250ms;
 }
 
 .slide-in {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import clsx from 'clsx';
 import { ActiveTransit, TransitIconImages } from './Interfaces';
 import logo from './assets/trajectory_logo.svg';
 import buttonDown from './assets/button-down.svg';
@@ -80,7 +81,7 @@ const App = () => {
             </h2>
             <img 
               onClick={() => activateDropdown(!dropdown)} 
-              className={`side-menu-button ${dropdown ? 'dropdown-on' : 'dropdown-off'}`} 
+              className={clsx("side-menu-button", {"dropdown-on": dropdown, "dropdown-off": !dropdown})} 
               src={buttonDown}
               alt="dropdown button" 
             />

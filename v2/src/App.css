@@ -240,12 +240,12 @@ button:focus {
   padding-left: 1rem;
   font-size: 1rem;
   font-family: inherit;
-  width: 300px;
+  width: calc(300px);
   transition: max-width 500ms;
 }
 
 .search-box-on {
-  max-width: 300px;
+  max-width: calc(300px);
 }
 
 .search-box-off {
@@ -272,7 +272,7 @@ button:focus {
   align-self: flex-start;
   padding: 1rem;
   border-radius: 1rem;
-  width: calc(300px + 4rem);
+  max-width: calc(100%);
   max-height: 300px;
   overflow: auto;
   margin-bottom: 0.5rem;
@@ -284,6 +284,7 @@ button:focus {
   border-top: solid;
   border-top-width: 1px;
   padding-top: 0.5rem;
+  max-width: calc(300px + 1.5rem);
 }
 
 .search-suggestion:first-child {

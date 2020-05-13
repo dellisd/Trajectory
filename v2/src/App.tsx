@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { Scrollbars } from 'react-custom-scrollbars';
 import logo from './assets/trajectory_logo.svg';
 import buttonDown from './assets/button-down.svg';
 import GOTrainLight from './assets/gotrain-light.svg';

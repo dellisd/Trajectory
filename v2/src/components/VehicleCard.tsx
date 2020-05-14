@@ -15,20 +15,40 @@ export const VehicleCard = (props: CarouselCardProps) => (
         <img className="transit-icon" src={props.icon} alt="current vehicle icon" />
       </div>
       <h3 className="vehicle-card-header">
-        <b>Route {props.route}</b>
+        <b>{!['via', 'gotrain'].includes(props.type) ? 'Route' : 'Train'} {props.route}</b>
       </h3>
     </div>
-    <hr className="side-menu-divider" />
-    <p>
-      {props.direction} -> <b>{props.terminal}</b>
-    </p>
-    <p>
-      Next Station -> <b>{props.nextStation}</b> 
-    </p>
-    {props.delay > 0 && (
+    <hr className={`${props.type}`} />
+    <div className="vehicle-card-section">
       <p>
-        Delay -> <b>{totalDelay(props.delay)}</b> 
+        {props.direction}
       </p>
+      <p>
+        <b>{props.terminal}</b>
+      </p>
+    </div>
+    <div className="vehicle-card-section">
+      <p>
+        Next Station
+      </p>
+      <p>
+        <b>{props.nextStation}</b> 
+      </p>
+    </div>
+    {props.delay > 0 && (
+      <div className="vehicle-card-section">
+        <p>
+          Delay
+        </p>
+        <p>
+          <b>{totalDelay(props.delay)}</b> 
+        </p>
+      </div>
     )}
+    <div className="vehicle-card-button">
+      <h4>
+        <b>Follow</b>
+      </h4>
+    </div>
   </div>
 );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 import clsx from 'clsx';
@@ -22,7 +22,7 @@ const samepleVehicles: CarouselVehicle[] = [
     direction: 'Westbound',
     terminal: `Queen's Park`,
     delay: 5,
-    nextStation: 'Dundas'
+    nextStation: 'Kensington'
   },
   {
     type: 'streetcar',
@@ -31,6 +31,22 @@ const samepleVehicles: CarouselVehicle[] = [
     terminal: `Queen's Park`,
     delay: 10,
     nextStation: 'Dundas'
+  },
+  {
+    type: 'via',
+    route: 52,
+    direction: 'Northbound',
+    terminal: `Montreal`,
+    delay: 45,
+    nextStation: 'Ottawa'
+  },
+  {
+    type: 'gotrain',
+    route: 12,
+    direction: 'Westbound',
+    terminal: `Oshawa`,
+    delay: 75,
+    nextStation: 'Oshawa'
   },
 ]
 
@@ -57,6 +73,15 @@ const App = () => {
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [displayUI, setDisplayUI] = useState(true);
   const [currVehicle, setCurrVehicle] = useState(0);
+  const [activeCard, setActiveCard] = useState(false)
+
+  // useEffect(() => {
+  //   setActiveCard(true);
+
+  //   setTimeout(() => {
+  //     setActiveCard(false);
+  //   }, 450);
+  // }, [currVehicle])
   
   const transitIcon = (transitType: string) => (
     <div 
@@ -148,15 +173,19 @@ const App = () => {
             src={buttonLeft}
             alt="arrow left"
           />
-            <VehicleCard
-              type={samepleVehicles[currVehicle].type}
-              route={samepleVehicles[currVehicle].route} 
-              direction={samepleVehicles[currVehicle].direction}
-              terminal={samepleVehicles[currVehicle].terminal}
-              delay={samepleVehicles[currVehicle].delay}
-              nextStation={samepleVehicles[currVehicle].nextStation}
-              icon={transitImagesLight[samepleVehicles[currVehicle].type]}
-            />
+            <div className="vehicle-card-body-container">
+              <div className={clsx("vehicle-card-body", { "slide-left-out": activeCard })}>
+                <VehicleCard
+                  type={samepleVehicles[currVehicle].type}
+                  route={samepleVehicles[currVehicle].route} 
+                  direction={samepleVehicles[currVehicle].direction}
+                  terminal={samepleVehicles[currVehicle].terminal}
+                  delay={samepleVehicles[currVehicle].delay}
+                  nextStation={samepleVehicles[currVehicle].nextStation}
+                  icon={transitImagesLight[samepleVehicles[currVehicle].type]}
+                />
+              </div>
+            </div>
           <img 
             onClick={() => setCurrVehicle(currVehicle => (currVehicle === samepleVehicles.length - 1 ? 0 : ++currVehicle))} 
             className="arrow-button" 

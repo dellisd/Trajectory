@@ -39,6 +39,14 @@ p {
   margin: 0;
 }
 
+hr {
+  border-style: solid !important;
+  border-width: 1px !important;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
 .main-container {
   background-color: white;
   height: 100vh;
@@ -77,10 +85,6 @@ p {
 
 .side-menu-divider {
   color: black;
-  border-width: 1px;
-  border-style: solid;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -318,6 +322,9 @@ p {
 .vehicle-card {
   margin-right: 1rem;
   margin-left: 1rem;
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .vehicle-card-header-container {
@@ -329,6 +336,36 @@ p {
 .vehicle-card-header {
   word-wrap: none;
   margin-left: 1rem;
+}
+
+.vehicle-card-section {
+  margin-bottom: 0.5rem;
+}
+
+.vehicle-card-body-container {
+  overflow: hidden;
+}
+
+.vehicle-card-body {
+  transition: transform 400ms;
+}
+
+.vehicle-card-button {
+  align-self: flex-end;
+  justify-self: flex-end;
+  padding: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  width: max-content;
+}
+
+.slide-left-out {
+  transform: translateX(-400px);
+}
+
+.slide-left-in {
+  transform: translateX(400px);
 }
 
 .ui-hidden {

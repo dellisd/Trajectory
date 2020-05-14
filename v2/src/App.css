@@ -162,7 +162,7 @@ hr {
 .side-menu-options {
   display: flex;
   flex-direction: column;
-  max-height: 300px;
+  max-height: calc(100vh);
   height: max-content;
   overflow: hidden;
   transition: max-height 750ms ease;
@@ -318,6 +318,7 @@ hr {
   border-radius: var(--container-border-radius);
   align-items: center;
   color: white;
+  transition: transform 500ms;
 }
 
 .vehicle-card {
@@ -362,7 +363,7 @@ hr {
 }
 
 .slide-left-out {
-  transform: translateX(-400px);
+  transform: translateX(calc(-100% - 2rem));
 }
 
 .slide-left-in {

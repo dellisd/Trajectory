@@ -166,7 +166,7 @@ const App = () => {
             // </Scrollbars>
           )}
         </div>
-        <div className={clsx("vehicle-card-container", { "ui-hidden": !displayUI })}>
+        <div className={clsx("vehicle-card-container", { "ui-hidden": !displayUI, "slide-left-out": dropdown })}>
           <img 
             onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? samepleVehicles.length - 1 : --currVehicle))} 
             className="arrow-button"

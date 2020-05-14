@@ -61,7 +61,7 @@ const App = () => {
   );
   
   const transitOption = (title: string, transitType: string, icon: string) => (
-    <div className="transit-box">
+    <div className="transit-box"> 
       {transitIcon(transitType)}
       <h3 className="transit-header">
         {title}

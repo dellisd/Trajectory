@@ -8,6 +8,7 @@
   --purple-bus: #A21A69;
   --black-box: rgb(0, 0, 0, 0.7);
   --search-box-max-width: 300px;
+  --container-border-radius: 1.5rem;
 }
 
 body,
@@ -34,6 +35,10 @@ button:focus {
   outline: none;
 }
 
+p {
+  margin: 0;
+}
+
 .main-container {
   background-color: white;
   height: 100vh;
@@ -45,12 +50,13 @@ button:focus {
   display: block;
   max-height: calc(90% - 2rem);
   background-color: var(--black-box);
-  position: relative;
-  top: 0;
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
   padding: 1rem;
   color: white;
   width: max-content;
-  border-radius: 1rem;
+  border-radius: var(--container-border-radius);
   overflow: hidden;
 }
 
@@ -75,6 +81,7 @@ button:focus {
   border-style: solid;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 .side-menu-header {
@@ -82,7 +89,7 @@ button:focus {
   margin-right: 1rem;
 }
 
-.side-menu-button {
+.arrow-button {
   display: block;
   height: 2rem;
   margin-right: 0;
@@ -108,7 +115,6 @@ button:focus {
 .controls {
   height: 100%;
   width: 100%;
-  padding: 2rem;
 }
 
 .transit-box:first-child {
@@ -194,6 +200,7 @@ button:focus {
 }
 
 .streetcar {
+  fill: var(--red-streetcar);
   background-color: var(--red-streetcar);
   border: var(--red-streetcar);
 }
@@ -215,7 +222,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   background-color: var(--black-box);
-  border-radius: 1.5rem;
+  border-radius: var(--container-border-radius);
   padding: 0.5rem;
   align-items: flex-end;
   overflow: hidden;
@@ -294,4 +301,36 @@ button:focus {
 
 .search-suggestion:hover {
   background-color: black;
+}
+
+.vehicle-card-container {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  display: flex;
+  background-color: var(--black-box);
+  padding: 1rem;
+  border-radius: var(--container-border-radius);
+  align-items: center;
+  color: white;
+}
+
+.vehicle-card {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+.vehicle-card-header-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.vehicle-card-header {
+  word-wrap: none;
+  margin-left: 1rem;
+}
+
+.ui-hidden {
+  display: none;
 }

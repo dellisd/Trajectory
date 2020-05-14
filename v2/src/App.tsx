@@ -61,6 +61,13 @@ const transitImagesLight: TransitIconImages = {
 const App = () => {
   const [dropdown, activateDropdown] = useState(false);
   const [search, activateSearch] = useState(false);
+  const [currentVehicles, setCurrentVehiclces] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [displayUI, setDisplayUI] = useState(true);
+  const [followedVehicle, setFollowedVehicle] = useState<CarouselVehicle | {}>({});
+  const [currVehicle, setCurrVehicle] = useState(0);
+  const [activeCard, setActiveCard] = useState(false)
   const [activeTransit, setActiveTransit] = useState<ActiveTransit>({
     gotrain: true,
     via: true,
@@ -68,21 +75,18 @@ const App = () => {
     subway: true,
     bus: false
   });
-  const [currentVehicles, setCurrentVehiclces] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
-  const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const [displayUI, setDisplayUI] = useState(true);
-  const [currVehicle, setCurrVehicle] = useState(0);
-  const [activeCard, setActiveCard] = useState(false)
-
-  // useEffect(() => {
-  //   setActiveCard(true);
-
-  //   setTimeout(() => {
-  //     setActiveCard(false);
-  //   }, 450);
-  // }, [currVehicle])
   
+  useEffect(() => {
+    setActiveCard(true);
+    setTimeout(() => {
+      setActiveCard(false);
+    }, 300);
+  }, [currVehicle])
+  
+  useEffect(() => {
+    console.log(followedVehicle);
+  }, [followedVehicle])
+
   const transitIcon = (transitType: string) => (
     <div 
       key={transitType} 
@@ -174,7 +178,7 @@ const App = () => {
             alt="arrow left"
           />
             <div className="vehicle-card-body-container">
-              <div className={clsx("vehicle-card-body", { "slide-left-out": activeCard })}>
+              <div className={"vehicle-card-body"}>
                 <VehicleCard
                   type={samepleVehicles[currVehicle].type}
                   route={samepleVehicles[currVehicle].route} 
@@ -183,6 +187,8 @@ const App = () => {
                   delay={samepleVehicles[currVehicle].delay}
                   nextStation={samepleVehicles[currVehicle].nextStation}
                   icon={transitImagesLight[samepleVehicles[currVehicle].type]}
+                  dividerAnimation={clsx({ "slide-left-out": activeCard })}
+                  followVehicle={setFollowedVehicle}
                 />
               </div>
             </div>

@@ -24,5 +24,7 @@ export interface CarouselVehicle {
 }
 
 export interface CarouselCardProps extends CarouselVehicle {
-  icon: string
+  icon: string,
+  dividerAnimation: string,
+  followVehicle: Function
 }

@@ -46,6 +46,7 @@ hr {
   margin-bottom: 1rem;
   width: 100%;
   border-color: white;
+  transition: transform 200ms;
 }
 
 .main-container {

@@ -21,7 +21,7 @@ const samepleVehicles: CarouselVehicle[] = [
     route: 505,
     direction: 'Westbound',
     terminal: `Queen's Park`,
-    delay: 25,
+    delay: 75,
     nextStation: 'Dundas'
   },
   {

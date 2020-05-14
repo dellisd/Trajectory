@@ -5,17 +5,8 @@ const totalDelay = (minutes: number) => {
   const hours = Math.floor(minutes / 60);
   let finalTime = '';
 
-  if (hours === 1) {
-    finalTime += `${hours} hour`;
-  } else if (hours > 1) {
-    finalTime += `${hours} hours`;
-  }
-
-  if (hours === 0) {
-    finalTime += `${minutes} minutes`
-  } else {
-    finalTime += `, ${minutes % 60} minutes`
-  }
+  finalTime += hours > 0 ? (`${hours} hour${hours > 1 ? 's' : ''}`) : ''
+  finalTime += hours === 0 ? `${minutes} minutes` : `, ${minutes % 60} minutes`
 
   return finalTime;
 }

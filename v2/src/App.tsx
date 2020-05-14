@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import { Scrollbars } from 'react-custom-scrollbars';
+import clsx from 'clsx';
+import { ActiveTransit, TransitIconImages, CarouselVehicle } from './Interfaces';
 import logo from './assets/trajectory_logo.svg';
 import buttonDown from './assets/button-down.svg';
 import GOTrainLight from './assets/gotrain-light.svg';
@@ -10,7 +12,7 @@ import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
 import searchLight from './assets/search-light.svg';
 
-const samepleVehicles = [
+const samepleVehicles: CarouselVehicle[] = [
   {
     type: 'bus',
     route: 505,
@@ -21,13 +23,13 @@ const samepleVehicles = [
   {
     type: 'streetcar',
     route: 105,
-    direction: 'Northound',
+    direction: 'Northbound',
     terminal: `Queen's Park`,
     delay: 10
   },
 ]
 
-const transitImagesLight: any = {
+const transitImagesLight: TransitIconImages = {
   gotrain: GOTrainLight,
   via: VIALight,
   streetcar: StreetCarLight,
@@ -38,7 +40,7 @@ const transitImagesLight: any = {
 const App = () => {
   const [dropdown, activateDropdown] = useState(false);
   const [search, activateSearch] = useState(false);
-  const [activeTransit, setActiveTransit]: any = useState({
+  const [activeTransit, setActiveTransit] = useState<ActiveTransit>({
     gotrain: true,
     via: true,
     streetcar: false,
@@ -52,7 +54,7 @@ const App = () => {
   const transitIcon = (transitType: string) => (
     <div 
       key={transitType} 
-      onClick={() => setActiveTransit({...activeTransit, [`${transitType}`]: !activeTransit[transitType]})} 
+      onClick={() => setActiveTransit({ ...activeTransit, [`${transitType}`]: !activeTransit[transitType] })} 
       className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}
     >
       <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} icon`} />
@@ -60,7 +62,7 @@ const App = () => {
   );
   
   const transitOption = (title: string, transitType: string, icon: string) => (
-    <div className="transit-box">
+    <div className="transit-box"> 
       {transitIcon(transitType)}
       <h3 className="transit-header">
         {title}
@@ -80,20 +82,20 @@ const App = () => {
             </h2>
             <img 
               onClick={() => activateDropdown(!dropdown)} 
-              className={`side-menu-button ${dropdown ? 'dropdown-on' : 'dropdown-off'}`} 
+              className={clsx("side-menu-button", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
               src={buttonDown}
               alt="dropdown button" 
             />
           </div>
           <hr  className="side-menu-divider" />
-          <div className={`side-menu-active-transit ${!dropdown ? 'slide-in' : 'slide-out'}`}>
+          <div className={clsx("side-menu-active-transit", { "slide-in": !dropdown, "slide-out": dropdown })}>
             {Object.keys(activeTransit).map((transit: string) => (
               activeTransit[transit] && (
-                transitIcon(transit.toLowerCase())
+                transitIcon(transit)
               )
             ))}
           </div>
-          <div className={`side-menu-options ${!dropdown ? 'hidden' : ''}`}>
+          <div className={clsx("side-menu-options", { "hidden": !dropdown })}>
             {transitOption('Go Train', 'gotrain', GOTrainLight)}
             {transitOption('VIA', 'via', VIALight)}
             {transitOption('Street Car', 'streetcar', StreetCarLight)}
@@ -107,7 +109,7 @@ const App = () => {
               autoFocus={search}
               onFocus={(e) => e.target.select()}
               disabled={!search} 
-              className={`search-box ${search ? 'search-box-on' : 'search-box-off'}`} 
+              className={clsx("search-box", { "search-box-on": search, "search-box-off": !search })} 
               type="text" placeholder="501 Queens" 
             />
             <div className="search-icon-container" onClick={() => activateSearch(!search)}>

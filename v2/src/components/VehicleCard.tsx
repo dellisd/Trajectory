@@ -3,12 +3,9 @@ import { CarouselCardProps } from '../Interfaces';
 
 const totalDelay = (minutes: number) => {
   const hours = Math.floor(minutes / 60);
-  let finalTime = '';
 
-  finalTime += hours > 0 ? (`${hours} hour${hours > 1 ? 's' : ''}`) : ''
-  finalTime += hours === 0 ? `${minutes} minutes` : `, ${minutes % 60} minutes`
-
-  return finalTime;
+  return (hours > 0 ? (`${hours} hour${hours > 1 ? 's' : ''}`) : '') 
+    + (hours === 0 ? `${minutes} minutes` : `, ${minutes % 60} minutes`);
 }
 
 export const VehicleCard = (props: CarouselCardProps) => (

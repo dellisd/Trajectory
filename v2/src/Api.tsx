@@ -1,5 +1,3 @@
-import { Point } from './Interfaces'
-
 const axios = require('axios').default
 
 // docs: https://www.nextbus.com/xmlFeedDocs/NextBusXMLFeed.pdf
@@ -16,9 +14,10 @@ export async function getAllRoutes(): Promise<[ApiRoute]> {
   const { data } = await ttcApi.get('', {
     params: {
       command: Command.ROUTE_LIST
-    }
+    },
+    transformResponse: [(data: any) => data.route]
   })
-  return data.route
+  return data
 }
 
 export async function getRouteConfig(routeTag: string): Promise<ApiRouteConfig> {
@@ -26,9 +25,17 @@ export async function getRouteConfig(routeTag: string): Promise<ApiRouteConfig> 
     params: {
       command: Command.ROUTE_CONFIG,
       r: routeTag
-    }
+    },
+    transformResponse: [function (data: any) {
+      const { route } = data;
+      route.path = route.path.map((path: any) =>
+        path.point.map((point: any) =>
+          [point.lon, point.lat]))
+
+      return route
+    }],
   })
-  return data.route
+  return data
 }
 
 export enum Command {
@@ -48,7 +55,6 @@ export interface ApiStop {
   tag: string,
   lat: number,
   lon: number,
-
 }
 
 export interface ApiDirection {
@@ -60,7 +66,8 @@ export interface ApiDirection {
 }
 
 export interface ApiPath {
-  point: [Point]
+  /* [[lon, lat]] */
+  point: [[number, number]] 
 }
 
 export interface ApiRouteConfig {

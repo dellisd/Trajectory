@@ -21,8 +21,3 @@ export interface CarouselVehicle {
   terminal: string,
   delay: number
 }
-
-export interface Point {
-  lon: number,
-  lat: number
-}

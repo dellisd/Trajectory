@@ -17,6 +17,11 @@ export const VehicleCard = (props: CarouselCardProps) => (
       <h3 className="vehicle-card-header">
         <b>{!['via', 'gotrain'].includes(props.type) ? 'Route' : 'Train'} {props.route}</b>
       </h3>
+      <div className="vehicle-card-button">
+        <h4>
+          <b>Follow</b>
+        </h4>
+      </div>
     </div>
     <hr className={`${props.type}`} />
     <div className="vehicle-card-section">
@@ -45,10 +50,5 @@ export const VehicleCard = (props: CarouselCardProps) => (
         </p>
       </div>
     )}
-    <div className="vehicle-card-button">
-      <h4>
-        <b>Follow</b>
-      </h4>
-    </div>
   </div>
 );

@@ -45,6 +45,7 @@ hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
   width: 100%;
+  border-color: white;
 }
 
 .main-container {
@@ -112,7 +113,7 @@ hr {
 .map {
   height: 100%;
   width: 100%;
-  background-color: orange;
+  background-color: darkorange;
   position: absolute;
 }
 
@@ -351,13 +352,13 @@ hr {
 }
 
 .vehicle-card-button {
-  align-self: flex-end;
-  justify-self: flex-end;
   padding: 0.4rem;
   align-items: center;
   justify-content: center;
   background-color: black;
   width: max-content;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .slide-left-out {

@@ -9,16 +9,7 @@ const totalDelay = (minutes: number) => {
 }
 
 export const VehicleCard = (props: CarouselCardProps) => {
-  const [following, setFollowing] = useState({});
-  const [followingActive, setFollowingActive] = useState(false);
-
-  useEffect(() => {
-    if (!followingActive) {
-      setFollowing({})
-    } else {
-      setFollowing(props)
-    }
-  }, [followingActive])
+  const [following, setFollowing] = useState(false);  
 
   return (
     <div className="vehicle-card">
@@ -29,9 +20,9 @@ export const VehicleCard = (props: CarouselCardProps) => {
         <h3 className="vehicle-card-header">
           <b>{!['via', 'gotrain'].includes(props.type) ? 'Route' : 'Train'} {props.route}</b>
         </h3>
-        <div onClick={() => setFollowingActive(!followingActive)} className="vehicle-card-button">
+        <div onClick={() => setFollowing(!following)} className="vehicle-card-button">
           <h4>
-            <b>{(JSON.stringify(following) === JSON.stringify(props)) ? 'Following' : 'Follow'}</b>
+            <b>{following ? 'Following' : 'Follow'}</b>
           </h4>
         </div>
       </div>

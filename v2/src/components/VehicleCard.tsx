@@ -10,6 +10,15 @@ const totalDelay = (minutes: number) => {
 
 export const VehicleCard = (props: CarouselCardProps) => {
   const [following, setFollowing] = useState({});
+  const [followingActive, setFollowingActive] = useState(false);
+
+  useEffect(() => {
+    if (!followingActive) {
+      setFollowing({})
+    } else {
+      setFollowing(props)
+    }
+  }, [followingActive])
 
   return (
     <div className="vehicle-card">
@@ -20,13 +29,11 @@ export const VehicleCard = (props: CarouselCardProps) => {
         <h3 className="vehicle-card-header">
           <b>{!['via', 'gotrain'].includes(props.type) ? 'Route' : 'Train'} {props.route}</b>
         </h3>
-        {(JSON.stringify(following) !== JSON.stringify(props)) && (
-          <div onClick={() => setFollowing(props)} className="vehicle-card-button">
-            <h4>
-              <b>{(JSON.stringify(following) === JSON.stringify(props)) ? 'Following' : 'Follow'}</b>
-            </h4>
-          </div>
-        )}
+        <div onClick={() => setFollowingActive(!followingActive)} className="vehicle-card-button">
+          <h4>
+            <b>{(JSON.stringify(following) === JSON.stringify(props)) ? 'Following' : 'Follow'}</b>
+          </h4>
+        </div>
       </div>
       <hr className={`${props.type} ${props.dividerAnimation}`} />
       <div className="vehicle-card-section">

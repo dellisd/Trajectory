@@ -5,25 +5,43 @@ const axios = require('axios').default
 // docs: https://www.nextbus.com/xmlFeedDocs/NextBusXMLFeed.pdf
 const ttcApi = axios.create({
   baseURL: 'http://webservices.nextbus.com/service/publicJSONFeed?a=ttc',
-  timeout: 1000,
+  timeout: 5000,
+  responseType: 'json',
   headers: {
     'Accept': 'application/json'
   }
 })
 
-/**
- * http://webservices.nextbus.com/service/publicJSONFeed?command=routeList&a=ttc
- */
-// export const getAllRoutes
+export async function getAllRoutes(): Promise<[ApiRoute]> {
+  const { data } = await ttcApi.get('', {
+    params: {
+      command: Command.ROUTE_LIST
+    }
+  })
+  return data.route
+}
+
+export async function getRouteConfig(routeTag: string): Promise<ApiRouteConfig> {
+  const { data } = await ttcApi.get('', {
+    params: {
+      command: Command.ROUTE_CONFIG,
+      r: routeTag
+    }
+  })
+  return data.route
+}
+
+export enum Command {
+  ROUTE_LIST = 'routeList',
+  ROUTE_CONFIG = 'routeConfig',
+  PREDICTION = 'prediction',
+}
+
 export interface ApiRoute {
   title: string,
   tag: string,
 }
 
-/**
- * http://webservices.nextbus.com/service/publicJSONFeed?command=routeConfig&a=ttc&r=<route tag>
- */
-// export const getRouteConfig
 export interface ApiStop {
   title: string,
   stopId: string,
@@ -39,7 +57,6 @@ export interface ApiDirection {
   name: string,
   branch: string,
   stop: [ApiStop],
-
 }
 
 export interface ApiPath {

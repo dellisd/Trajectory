@@ -19,6 +19,8 @@ import road from './assets/road.svg';
 import wheel from './assets/wheel.svg';
 import location from './assets/location.svg';
 import locationAnimated from './assets/location-animated.svg';
+import eye from './assets/visible.svg';
+import eyeAnimated from './assets/visible-animated.svg';
 
 const sampleVehicles: CarouselVehicle[] = [
   {
@@ -226,37 +228,53 @@ const App = () => {
           </div>
         )}
         <div className="advanced-controls-container">
-          <div 
-            className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.roads })}
-            onClick={() => setSettings({ ...settings, roads: !settings.roads })}
-          >
-            <img 
-              onMouseOver={(e) => e.currentTarget.src = roadAnimated} 
-              onMouseOut={(e) => e.currentTarget.src = road}
-              className="transit-icon" 
-              src={road} alt="road icon" 
-            />
-          </div>
-          <div 
-            className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.vehicles })}
-            onClick={() => setSettings({ ...settings, vehicles: !settings.vehicles })}
-          >
-            <img  
-              className={clsx("transit-icon", { "animate-wheel": wheelHover })}
-              src={wheel} alt="wheel icon"
-              onMouseOver={() => setWheelHover(!wheelHover)}
-              onMouseOut={() => setWheelHover(!wheelHover)}
-            />
-          </div>
+          {settings.ui && (
+            <div>
+
+              <div 
+                className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.roads })}
+                onClick={() => setSettings({ ...settings, roads: !settings.roads })}
+              >
+                <img 
+                  onMouseOver={(e) => e.currentTarget.src = roadAnimated} 
+                  onMouseOut={(e) => e.currentTarget.src = road}
+                  className="transit-icon" 
+                  src={road} alt="road icon" 
+                />
+              </div>
+              <div 
+                className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.vehicles })}
+                onClick={() => setSettings({ ...settings, vehicles: !settings.vehicles })}
+              >
+                <img
+                  className={clsx("transit-icon", { "animate-wheel": wheelHover })}
+                  src={wheel} alt="wheel icon"
+                  onMouseOver={() => setWheelHover(!wheelHover)}
+                  onMouseOut={() => setWheelHover(!wheelHover)}
+                />
+              </div>
+              <div
+                className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.location })}
+                onClick={() => setSettings({ ...settings, location: !settings.location })}
+              >
+                <img
+                  onMouseOver={(e) => e.currentTarget.src = locationAnimated} 
+                  onMouseOut={(e) => e.currentTarget.src = location}
+                  className="transit-icon"
+                  src={location} alt="location icon" 
+                />
+              </div>
+            </div>
+          )}
           <div
-            className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.location })}
-            onClick={() => setSettings({ ...settings, location: !settings.location })}
+            className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.ui })}
+            onClick={() => setSettings({ ...settings, ui: !settings.ui })}
           >
             <img
-              onMouseOver={(e) => e.currentTarget.src = locationAnimated} 
-              onMouseOut={(e) => e.currentTarget.src = location}
+              onMouseOver={(e) => e.currentTarget.src = eyeAnimated} 
+              onMouseOut={(e) => e.currentTarget.src = eye}
               className="transit-icon"
-              src={location} alt="location icon" 
+              src={eye} alt="visible icon"
             />
           </div>
         </div>

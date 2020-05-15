@@ -14,6 +14,7 @@ import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
 import searchLight from './assets/search-light.svg';
 import { VehicleCard } from './components/VehicleCard';
+import { Map } from "./components/Map";
 
 const samepleVehicles: CarouselVehicle[] = [
   {
@@ -80,6 +81,7 @@ const App = () => {
   return (
     <div className="main-container">
       <div className="map">
+        <Map/>
       </div>
       <div className="controls">
         <div className={clsx("side-menu-container", { "ui-hidden": !displayUI })}>

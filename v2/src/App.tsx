@@ -132,7 +132,7 @@ const App = () => {
       <div className="map">
       </div>
       <div className="controls">
-        <div className={clsx("side-menu-container", { "ui-hidden": !settings.ui })}>
+        <div className={clsx("side-menu-container", { "ui-hidden": !settings.ui, "slide-left": search })}>
           <div className="side-menu-header-container">
             <h3 className="side-menu-header">
               Active transit
@@ -145,7 +145,7 @@ const App = () => {
             />
           </div>
           <hr  className="side-menu-divider" />
-          <div className={clsx("side-menu-active-transit", { "slide-in": !dropdown, "slide-out": dropdown })}>
+          <div className={clsx("side-menu-active-transit", { "slide-out": dropdown })}>
             {Object.keys(activeTransit).map((transit: string) => transitIcon(transit))}
           </div>
           <div className={clsx("side-menu-options", { "hidden": !dropdown })}>
@@ -192,16 +192,16 @@ const App = () => {
           )}
         </div>
         {currentVehicles.length > 0 ? (
-          <div 
+          <div
             className={clsx("vehicle-card-options-container", { "slide-left-out": dropdown, "ui-hidden": !settings.ui })}>
-            <div 
+            <div
               className="vehicle-card-minimize-container" 
               onClick={() => setVehicleCardMinimized(!vehicleCardMinimized)}
             >
               <hr />
             </div>
             <div className="vehicle-card-container">
-              <img 
+              <img
                 onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? currentVehicles.length - 1 : --currVehicle))} 
                 className="arrow-button left"
                 src={buttonLeft}
@@ -232,9 +232,9 @@ const App = () => {
             </div>
           </div>
         ) : (
-          <div className="vehicle-card-container">
+          <div className="vehicle-card-options-container vehicle-card-container">
             <h3>
-              There's no transit at the moment
+              No transit at the moment
             </h3>
           </div>
         )}

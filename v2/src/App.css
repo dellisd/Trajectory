@@ -72,6 +72,7 @@ hr {
   width: max-content;
   border-radius: var(--container-border-radius);
   overflow: hidden;
+  transition: transform 500ms;
 }
 
 .logo {
@@ -126,7 +127,7 @@ hr {
 .map {
   height: 100%;
   width: 100%;
-  background-color: white;
+  background-color: darkorange;
   position: absolute;
 }
 
@@ -191,17 +192,14 @@ hr {
   flex-direction: row;
   margin-top: 1rem;
   flex-wrap: wrap;
-  transition: transform 500ms;
+  max-height: 2rem;
+  transition: transform 500ms, max-height 500ms;
   transition-delay: 250ms;
-}
-
-.slide-in {
-  transform: translateX(0);
 }
 
 .slide-out{
   transform: translate(calc(-100% - 4rem));
-  height: 0;
+  max-height: 0;
 }
 
 .side-menu-active-transit .transit-icon-container:not(:first-child) {
@@ -245,6 +243,7 @@ hr {
   padding: 0.5rem;
   align-items: flex-end;
   overflow: hidden;
+  max-width: 300px;
 }
 
 .search-icon-container {
@@ -256,6 +255,8 @@ hr {
   padding: 0.4rem;
   background-color: black;
   border: none;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .search-box {
@@ -286,9 +287,10 @@ hr {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  min-width: 2.3rem;
+  min-width: 2.5rem;
   background-color: black;
   border-radius: 2rem;
+  max-width: 100%;
 }
 
 .search-suggestions-container {
@@ -303,6 +305,7 @@ hr {
   max-height: 300px;
   overflow: auto;
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .search-suggestion {
@@ -454,7 +457,7 @@ hr {
   }
 
   .search-container {
-    max-width: calc(100% - 8rem);
+    max-width: calc(100% - 4rem);
   }
 
   .vehicle-card-container {
@@ -499,5 +502,9 @@ hr {
     padding: 0.2rem;
     justify-content: center;
     border-width: 1px !important;
+  }
+
+  .slide-left {
+    transform: translateX(calc(-100% - 2rem));
   }
 }

@@ -32,7 +32,7 @@ export interface ApiDirection {
 
 export interface ApiPath {
   /* [[lon, lat]] */
-  point: [[number, number]]
+  point: [number, number][]
 }
 
 export interface ApiRouteConfig {

@@ -193,7 +193,8 @@ const App = () => {
         </div>
         {currentVehicles.length > 0 ? (
           <div
-            className={clsx("vehicle-card-options-container", { "slide-left-out": dropdown, "ui-hidden": !settings.ui })}>
+            className={clsx("vehicle-card-options-container", { "slide-left-out": dropdown, "ui-hidden": !settings.ui })}
+          >
             <div
               className="vehicle-card-minimize-container" 
               onClick={() => setVehicleCardMinimized(!vehicleCardMinimized)}
@@ -232,7 +233,14 @@ const App = () => {
             </div>
           </div>
         ) : (
-          <div className="vehicle-card-options-container vehicle-card-container">
+          <div 
+            className={ clsx("vehicle-card-options-container vehicle-card-container", 
+              { 
+                "slide-left-out": dropdown, 
+                "ui-hidden": !settings.ui 
+              }
+            )}
+          >
             <h3>
               No transit at the moment
             </h3>

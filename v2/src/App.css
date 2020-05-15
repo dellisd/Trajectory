@@ -243,7 +243,7 @@ hr {
   padding: 0.5rem;
   align-items: flex-end;
   overflow: hidden;
-  max-width: 300px;
+  max-width: var(--search-box-max-width);
 }
 
 .search-icon-container {

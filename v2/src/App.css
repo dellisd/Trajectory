@@ -150,6 +150,7 @@ hr {
 .transit-icon {
   height: 100%;
   width: 100%;
+  transition: transform 500ms;
 }
 
 .transit-icon-container {
@@ -410,25 +411,38 @@ hr {
   margin-top: 0rem;
 }
 
+.animate-wheel {
+  transform: rotate(-390deg);
+}
+
 @media(max-width: 767px) {
   .search-container {
-    max-width: calc(100% - 4rem);
+    max-width: calc(100% - 8rem);
   }
 
   .vehicle-card-container {
-    width: calc(100% - 4rem);
+    width: calc(100% - 8rem);
+  }
+
+  .vehicle-card-body-container {
+    width: 100%;
+  }
+
+  .vehicle-card {
+    width: calc(100% - 2rem);
   }
 
   .logo {
     width: 4rem;
     bottom: 0rem;
-    left: calc(50% - 2rem);
+    left: 2rem;
+    right: 0;
   }
 
   .vehicle-card-header-container {
     align-items: center;
     display: flex;
     flex-direction: row;
-    width: calc(100% - 1rem);
+    width: 100%;
   }
 }

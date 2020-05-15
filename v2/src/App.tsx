@@ -20,7 +20,7 @@ import wheel from './assets/wheel.svg';
 import location from './assets/location.svg';
 import locationAnimated from './assets/location-animated.svg';
 
-const samepleVehicles: CarouselVehicle[] = [
+const sampleVehicles: CarouselVehicle[] = [
   {
     type: 'bus',
     route: 505,
@@ -66,12 +66,20 @@ const transitImagesLight: TransitIconImages = {
 const App = () => {
   const [dropdown, activateDropdown] = useState(false);
   const [search, activateSearch] = useState(false);
-  const [currentVehicles, setCurrentVehiclces] = useState([]);
+
+  // ?Use this to populate the currentVehicles array with API data
+  const [currentVehicles, setCurrentVehiclces] = useState(sampleVehicles);
+
+  // ?Use this to search values with a form
   const [searchValue, setSearchValue] = useState('');
+  
+  // ?Use a search API (maybe Google maps) to suggest locations
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const [followedVehicle, setFollowedVehicle] = useState<CarouselVehicle | {}>({});
+
+  const [followingVehicle, setFollowingVehicle] = useState<CarouselVehicle | {}>({});
   const [currVehicle, setCurrVehicle] = useState(0);
   const [activeCard, setActiveCard] = useState(false);
+  const [wheelHover, setWheelHover] = useState(false);
   const [settings, setSettings] = useState({
     vehicles: false,
     roads: false,
@@ -94,8 +102,8 @@ const App = () => {
   }, [currVehicle])
   
   useEffect(() => {
-    console.log(followedVehicle);
-  }, [followedVehicle])
+    console.log(followingVehicle);
+  }, [followingVehicle])
 
   const transitIcon = (transitType: string) => (
     <div 
@@ -126,7 +134,7 @@ const App = () => {
             <h3 className="side-menu-header">
               Active transit
             </h3>
-            <img 
+            <img
               onClick={() => activateDropdown(!dropdown)} 
               className={clsx("arrow-button right", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
               src={buttonDown}
@@ -180,35 +188,43 @@ const App = () => {
             // </Scrollbars>
           )}
         </div>
-        <div className={clsx("vehicle-card-container", { "ui-hidden": !settings.ui, "slide-left-out": dropdown })}>
-          <img 
-            onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? samepleVehicles.length - 1 : --currVehicle))} 
-            className="arrow-button left"
-            src={buttonLeft}
-            alt="arrow left"
-          />
-            <div className={"vehicle-card-body-container"}>
-              <div className={"vehicle-card-body"}>
-                <VehicleCard
-                  type={samepleVehicles[currVehicle].type}
-                  route={samepleVehicles[currVehicle].route} 
-                  direction={samepleVehicles[currVehicle].direction}
-                  terminal={samepleVehicles[currVehicle].terminal}
-                  delay={samepleVehicles[currVehicle].delay}
-                  nextStation={samepleVehicles[currVehicle].nextStation}
-                  icon={transitImagesLight[samepleVehicles[currVehicle].type]}
-                  dividerAnimation={clsx({ "slide-left-out": activeCard })}
-                  followVehicle={setFollowedVehicle}
-                />
+        {currentVehicles.length > 0 ? (
+          <div className={clsx("vehicle-card-container", { "ui-hidden": !settings.ui, "slide-left-out": dropdown })}>
+            <img 
+              onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? currentVehicles.length - 1 : --currVehicle))} 
+              className="arrow-button left"
+              src={buttonLeft}
+              alt="arrow left"
+            />
+              <div className={"vehicle-card-body-container"}>
+                <div className={"vehicle-card-body"}>
+                  <VehicleCard
+                    type={currentVehicles[currVehicle].type}
+                    route={currentVehicles[currVehicle].route} 
+                    direction={currentVehicles[currVehicle].direction}
+                    terminal={currentVehicles[currVehicle].terminal}
+                    delay={currentVehicles[currVehicle].delay}
+                    nextStation={currentVehicles[currVehicle].nextStation}
+                    icon={transitImagesLight[currentVehicles[currVehicle].type]}
+                    dividerAnimation={clsx({ "slide-left-out": activeCard })}
+                    followVehicle={setFollowingVehicle}
+                  />
+                </div>
               </div>
-            </div>
-          <img 
-            onClick={() => setCurrVehicle(currVehicle => (currVehicle === samepleVehicles.length - 1 ? 0 : ++currVehicle))} 
+            <img 
+            onClick={() => setCurrVehicle(currVehicle => (currVehicle === currentVehicles.length - 1 ? 0 : ++currVehicle))} 
             className="arrow-button right" 
             src={buttonRight} 
             alt="arrow right" 
-          />
-        </div>
+            />
+          </div>
+        ) : (
+          <div className="vehicle-card-container">
+            <h3>
+              There are currently no vehicles
+            </h3>
+          </div>
+        )}
         <div className="advanced-controls-container">
           <div 
             className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.roads })}
@@ -226,8 +242,10 @@ const App = () => {
             onClick={() => setSettings({ ...settings, vehicles: !settings.vehicles })}
           >
             <img  
-              className="transit-icon"
+              className={clsx("transit-icon", { "animate-wheel": wheelHover })}
               src={wheel} alt="wheel icon"
+              onMouseOver={() => setWheelHover(!wheelHover)}
+              onMouseOut={() => setWheelHover(!wheelHover)}
             />
           </div>
           <div

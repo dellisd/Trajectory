@@ -11,6 +11,10 @@ const totalDelay = (minutes: number) => {
 export const VehicleCard = (props: CarouselCardProps) => {
   const [following, setFollowing] = useState(false);  
 
+  useEffect(() => {
+    props.followVehicle(following);
+  }, [following])
+
   return (
     <div className="vehicle-card">
       <div className="vehicle-card-header-container">

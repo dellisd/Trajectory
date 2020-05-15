@@ -11,6 +11,10 @@
   --container-border-radius: 1.5rem;
 }
 
+html {
+  font-size: 1vw;
+}
+
 body,
 h1,
 h2,
@@ -122,7 +126,7 @@ hr {
 .map {
   height: 100%;
   width: 100%;
-  background-color: darkorange;
+  background-color: white;
   position: absolute;
 }
 
@@ -319,16 +323,12 @@ hr {
 }
 
 .vehicle-card-container {
-  position: absolute;
-  left: 2rem;
-  bottom: 2rem;
   display: flex;
   background-color: var(--black-box);
   padding: 1rem;
   border-radius: var(--container-border-radius);
   align-items: center;
   color: white;
-  transition: transform 500ms;
 }
 
 .vehicle-card {
@@ -382,7 +382,7 @@ hr {
 }
 
 .ui-hidden {
-  display: none;
+  display: none !important;
 }
 
 .advanced-controls-container {
@@ -415,17 +415,58 @@ hr {
   transform: rotate(-390deg);
 }
 
+.vehicle-card-minimize-container {
+  position: relative;
+  height: 1rem;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  border-radius: var(--container-border-radius);
+  width: 4rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vehicle-card-options-container {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 500ms;
+}
+
+.vehicle-card-info {
+  max-height: 14rem;
+  transition: max-height 500ms;
+}
+
+.minimized {
+  max-height: 0;
+}
+
 @media(max-width: 767px) {
+  html {
+    font-size: 4vw;
+  }
+
   .search-container {
     max-width: calc(100% - 8rem);
   }
 
   .vehicle-card-container {
-    width: calc(100% - 8rem);
+    width: 100%;
   }
 
   .vehicle-card-body-container {
     width: 100%;
+  }
+
+  .vehicle-card-options-container {
+    width: calc(100% - 8rem);
   }
 
   .vehicle-card {
@@ -444,5 +485,19 @@ hr {
     display: flex;
     flex-direction: row;
     width: 100%;
+  }
+
+  .search-icon-container {
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.2rem;
+  }
+
+  .transit-icon-container {
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.2rem;
+    justify-content: center;
+    border-width: 1px !important;
   }
 }

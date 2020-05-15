@@ -55,7 +55,7 @@ const sampleVehicles: CarouselVehicle[] = [
     delay: 75,
     nextStation: 'Oshawa'
   },
-]
+];
 
 const transitImagesLight: TransitIconImages = {
   gotrain: GOTrainLight,
@@ -63,7 +63,7 @@ const transitImagesLight: TransitIconImages = {
   streetcar: StreetCarLight,
   subway: SubwayLight,
   bus: BusLight
-}
+};
 
 const App = () => {
   const [dropdown, activateDropdown] = useState(false);
@@ -80,7 +80,8 @@ const App = () => {
 
   const [followingVehicle, setFollowingVehicle] = useState<CarouselVehicle | {}>({});
   const [currVehicle, setCurrVehicle] = useState(0);
-  const [activeCard, setActiveCard] = useState(false);
+  const [cardAnimationActive, setCardAnimationActive] = useState(false);
+  const [vehicleCardMinimized, setVehicleCardMinimized] = useState(false);
   const [wheelHover, setWheelHover] = useState(false);
   const [settings, setSettings] = useState({
     vehicles: false,
@@ -97,9 +98,9 @@ const App = () => {
   });
   
   useEffect(() => {
-    setActiveCard(true);
+    setCardAnimationActive(true);
     setTimeout(() => {
-      setActiveCard(false);
+      setCardAnimationActive(false);
     }, 300);
   }, [currVehicle])
   
@@ -191,46 +192,55 @@ const App = () => {
           )}
         </div>
         {currentVehicles.length > 0 ? (
-          <div className={clsx("vehicle-card-container", { "ui-hidden": !settings.ui, "slide-left-out": dropdown })}>
-            <img 
-              onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? currentVehicles.length - 1 : --currVehicle))} 
-              className="arrow-button left"
-              src={buttonLeft}
-              alt="arrow left"
-            />
-              <div className={"vehicle-card-body-container"}>
-                <div className={"vehicle-card-body"}>
-                  <VehicleCard
-                    type={currentVehicles[currVehicle].type}
-                    route={currentVehicles[currVehicle].route} 
-                    direction={currentVehicles[currVehicle].direction}
-                    terminal={currentVehicles[currVehicle].terminal}
-                    delay={currentVehicles[currVehicle].delay}
-                    nextStation={currentVehicles[currVehicle].nextStation}
-                    icon={transitImagesLight[currentVehicles[currVehicle].type]}
-                    dividerAnimation={clsx({ "slide-left-out": activeCard })}
-                    followVehicle={setFollowingVehicle}
-                  />
+          <div 
+            className={clsx("vehicle-card-options-container", { "slide-left-out": dropdown, "ui-hidden": !settings.ui })}>
+            <div 
+              className="vehicle-card-minimize-container" 
+              onClick={() => setVehicleCardMinimized(!vehicleCardMinimized)}
+            >
+              <hr />
+            </div>
+            <div className="vehicle-card-container">
+              <img 
+                onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? currentVehicles.length - 1 : --currVehicle))} 
+                className="arrow-button left"
+                src={buttonLeft}
+                alt="arrow left"
+              />
+                <div className={"vehicle-card-body-container"}>
+                  <div className={"vehicle-card-body"}>
+                    <VehicleCard
+                      type={currentVehicles[currVehicle].type}
+                      route={currentVehicles[currVehicle].route} 
+                      direction={currentVehicles[currVehicle].direction}
+                      terminal={currentVehicles[currVehicle].terminal}
+                      delay={currentVehicles[currVehicle].delay}
+                      nextStation={currentVehicles[currVehicle].nextStation}
+                      icon={transitImagesLight[currentVehicles[currVehicle].type]}
+                      dividerAnimation={clsx({ "slide-left-out": cardAnimationActive })}
+                      followVehicle={setFollowingVehicle}
+                      minimized={vehicleCardMinimized}
+                    />
+                  </div>
                 </div>
-              </div>
-            <img 
-            onClick={() => setCurrVehicle(currVehicle => (currVehicle === currentVehicles.length - 1 ? 0 : ++currVehicle))} 
-            className="arrow-button right" 
-            src={buttonRight} 
-            alt="arrow right" 
-            />
+              <img 
+              onClick={() => setCurrVehicle(currVehicle => (currVehicle === currentVehicles.length - 1 ? 0 : ++currVehicle))} 
+              className="arrow-button right" 
+              src={buttonRight} 
+              alt="arrow right" 
+              />
+            </div>
           </div>
         ) : (
           <div className="vehicle-card-container">
             <h3>
-              There are currently no vehicles
+              There's no transit at the moment
             </h3>
           </div>
         )}
         <div className="advanced-controls-container">
           {settings.ui && (
             <div>
-
               <div 
                 className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.roads })}
                 onClick={() => setSettings({ ...settings, roads: !settings.roads })}
@@ -270,12 +280,14 @@ const App = () => {
             className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.ui })}
             onClick={() => setSettings({ ...settings, ui: !settings.ui })}
           >
-            <img
-              onMouseOver={(e) => e.currentTarget.src = eyeAnimated} 
-              onMouseOut={(e) => e.currentTarget.src = eye}
-              className="transit-icon"
-              src={eye} alt="visible icon"
-            />
+            {settings.ui && (
+              <img
+                onMouseOver={(e) => e.currentTarget.src = eyeAnimated} 
+                onMouseOut={(e) => e.currentTarget.src = eye}
+                className="transit-icon"
+                src={eye} alt="visible icon"
+              />
+            )}
           </div>
         </div>
       </div>

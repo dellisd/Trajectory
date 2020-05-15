@@ -3,6 +3,7 @@ import './App.css';
 import { Scrollbars } from 'react-custom-scrollbars';
 import clsx from 'clsx';
 import { ActiveTransit, TransitIconImages, CarouselVehicle } from './Interfaces';
+import { VehicleCard } from './components/VehicleCard';
 import logo from './assets/trajectory_logo.svg';
 import buttonRight from './assets/button-right.svg';
 import buttonLeft from './assets/button-left.svg';
@@ -13,7 +14,11 @@ import StreetCarLight from './assets/streetcar-light.svg';
 import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
 import searchLight from './assets/search-light.svg';
-import { VehicleCard } from './components/VehicleCard';
+import roadAnimated from './assets/road-animated.svg';
+import road from './assets/road.svg';
+import wheel from './assets/wheel.svg';
+import location from './assets/location.svg';
+import locationAnimated from './assets/location-animated.svg';
 
 const samepleVehicles: CarouselVehicle[] = [
   {
@@ -64,10 +69,15 @@ const App = () => {
   const [currentVehicles, setCurrentVehiclces] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const [displayUI, setDisplayUI] = useState(true);
   const [followedVehicle, setFollowedVehicle] = useState<CarouselVehicle | {}>({});
   const [currVehicle, setCurrVehicle] = useState(0);
-  const [activeCard, setActiveCard] = useState(false)
+  const [activeCard, setActiveCard] = useState(false);
+  const [settings, setSettings] = useState({
+    vehicles: false,
+    roads: false,
+    location: false,
+    ui: true
+  });
   const [activeTransit, setActiveTransit] = useState<ActiveTransit>({
     gotrain: true,
     via: true,
@@ -111,7 +121,7 @@ const App = () => {
       <div className="map">
       </div>
       <div className="controls">
-        <div className={clsx("side-menu-container", { "ui-hidden": !displayUI })}>
+        <div className={clsx("side-menu-container", { "ui-hidden": !settings.ui })}>
           <div className="side-menu-header-container">
             <h3 className="side-menu-header">
               Active transit
@@ -135,7 +145,7 @@ const App = () => {
             {transitOption('Bus', 'bus', BusLight)}
           </div>
         </div>
-        <div className={clsx("search-container", { "ui-hidden": !displayUI })}>
+        <div className={clsx("search-container", { "ui-hidden": !settings.ui })}>
           <div className="search-controls-container">
             <input 
               autoFocus={search}
@@ -170,7 +180,7 @@ const App = () => {
             // </Scrollbars>
           )}
         </div>
-        <div className={clsx("vehicle-card-container", { "ui-hidden": !displayUI, "slide-left-out": dropdown })}>
+        <div className={clsx("vehicle-card-container", { "ui-hidden": !settings.ui, "slide-left-out": dropdown })}>
           <img 
             onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? samepleVehicles.length - 1 : --currVehicle))} 
             className="arrow-button left"
@@ -200,14 +210,36 @@ const App = () => {
           />
         </div>
         <div className="advanced-controls-container">
-          <div className="transit-icon-container">
-            locate
+          <div 
+            className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.roads })}
+            onClick={() => setSettings({ ...settings, roads: !settings.roads })}
+          >
+            <img 
+              onMouseOver={(e) => e.currentTarget.src = roadAnimated} 
+              onMouseOut={(e) => e.currentTarget.src = road}
+              className="transit-icon" 
+              src={road} alt="road icon" 
+            />
           </div>
-          <div className="transit-icon-container">
-            vehicles
+          <div 
+            className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.vehicles })}
+            onClick={() => setSettings({ ...settings, vehicles: !settings.vehicles })}
+          >
+            <img  
+              className="transit-icon"
+              src={wheel} alt="wheel icon"
+            />
           </div>
-          <div className="transit-icon-container">
-            compass
+          <div
+            className={clsx("transit-icon-container advanced-controls-icon-container", { "active": settings.location })}
+            onClick={() => setSettings({ ...settings, location: !settings.location })}
+          >
+            <img
+              onMouseOver={(e) => e.currentTarget.src = locationAnimated} 
+              onMouseOut={(e) => e.currentTarget.src = location}
+              className="transit-icon"
+              src={location} alt="location icon" 
+            />
           </div>
         </div>
       </div>

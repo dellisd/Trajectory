@@ -384,6 +384,32 @@ hr {
   display: none;
 }
 
+.advanced-controls-container {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  background-color: var(--black-box);
+  padding: 0.5rem;
+  border-radius: var(--container-border-radius);
+}
+
+.advanced-controls-icon-container {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.3rem;
+  border: none !important;
+  background-color: transparent;
+}
+
+.active {
+  background-color: black;
+}
+
+.advanced-controls-icon-container:first-child {
+  margin-top: 0rem;
+}
+
 @media(max-width: 767px) {
   .search-container {
     max-width: calc(100% - 4rem);

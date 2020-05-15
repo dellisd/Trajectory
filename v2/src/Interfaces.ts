@@ -19,5 +19,10 @@ export interface CarouselVehicle {
   route: number,
   direction: 'Northbound' | 'Southbound' | 'Westbound' | 'Eastbound',
   terminal: string,
-  delay: number
+  delay: number,
+  nextStation: string
+}
+
+export interface CarouselCardProps extends CarouselVehicle {
+  icon: string
 }

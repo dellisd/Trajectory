@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
+import { Scrollbars } from 'react-custom-scrollbars';
 import clsx from 'clsx';
 import { ActiveTransit, TransitIconImages, CarouselVehicle } from './Interfaces';
 import logo from './assets/trajectory_logo.svg';
+import buttonRight from './assets/button-right.svg';
+import buttonLeft from './assets/button-left.svg';
 import buttonDown from './assets/button-down.svg';
 import GOTrainLight from './assets/gotrain-light.svg';
 import VIALight from './assets/via-light.svg';
@@ -10,6 +13,7 @@ import StreetCarLight from './assets/streetcar-light.svg';
 import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
 import searchLight from './assets/search-light.svg';
+import { VehicleCard } from './components/VehicleCard';
 
 const samepleVehicles: CarouselVehicle[] = [
   {
@@ -17,14 +21,16 @@ const samepleVehicles: CarouselVehicle[] = [
     route: 505,
     direction: 'Westbound',
     terminal: `Queen's Park`,
-    delay: 5
+    delay: 5,
+    nextStation: 'Dundas'
   },
   {
     type: 'streetcar',
     route: 105,
     direction: 'Northbound',
     terminal: `Queen's Park`,
-    delay: 10
+    delay: 10,
+    nextStation: 'Dundas'
   },
 ]
 
@@ -49,6 +55,8 @@ const App = () => {
   const [currentVehicles, setCurrentVehiclces] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [displayUI, setDisplayUI] = useState(true);
+  const [currVehicle, setCurrVehicle] = useState(0);
   
   const transitIcon = (transitType: string) => (
     <div 
@@ -63,9 +71,9 @@ const App = () => {
   const transitOption = (title: string, transitType: string, icon: string) => (
     <div className="transit-box"> 
       {transitIcon(transitType)}
-      <h3 className="transit-header">
+      <p className="transit-header">
         {title}
-      </h3>
+      </p>
     </div>
   );
 
@@ -74,25 +82,21 @@ const App = () => {
       <div className="map">
       </div>
       <div className="controls">
-        <div className="side-menu-container">
+        <div className={clsx("side-menu-container", { "ui-hidden": !displayUI })}>
           <div className="side-menu-header-container">
-            <h2 className="side-menu-header">
+            <h3 className="side-menu-header">
               Active transit
-            </h2>
+            </h3>
             <img 
               onClick={() => activateDropdown(!dropdown)} 
-              className={clsx("side-menu-button", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
+              className={clsx("arrow-button", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
               src={buttonDown}
               alt="dropdown button" 
             />
           </div>
           <hr  className="side-menu-divider" />
           <div className={clsx("side-menu-active-transit", { "slide-in": !dropdown, "slide-out": dropdown })}>
-            {Object.keys(activeTransit).map((transit: string) => (
-              activeTransit[transit] && (
-                transitIcon(transit)
-              )
-            ))}
+            {Object.keys(activeTransit).map((transit: string) => transitIcon(transit))}
           </div>
           <div className={clsx("side-menu-options", { "hidden": !dropdown })}>
             {transitOption('Go Train', 'gotrain', GOTrainLight)}
@@ -102,7 +106,7 @@ const App = () => {
             {transitOption('Bus', 'bus', BusLight)}
           </div>
         </div>
-        <div className="search-container">
+        <div className={clsx("search-container", { "ui-hidden": !displayUI })}>
           <div className="search-controls-container">
             <input 
               autoFocus={search}
@@ -116,30 +120,52 @@ const App = () => {
             </div>
           </div>
           {search && (
-            <div className="search-suggestions-container">
-              <p className="search-suggestion">
-                This is a sample and it is very long very very long
-              </p>
-              <p className="search-suggestion">
-                This is a sample and it is very long very very long
-              </p>
-              <p className="search-suggestion">
-                This is a sample and it is very long very very long
-              </p>
-              <p className="search-suggestion">
-                This is a sample and it is very long very very long
-              </p>
-              <p className="search-suggestion">
-                This is a sample and it is very long very very long
-              </p>
-            </div>
+            // <Scrollbars> @TODO can't get this to work atm
+              <div className="search-suggestions-container">
+                <p className="search-suggestion">
+                  This is a sample and it is very long very very long
+                </p>
+                <p className="search-suggestion">
+                  This is a sample and it is very long very very long
+                </p>
+                <p className="search-suggestion">
+                  This is a sample and it is very long very very long
+                </p>
+                <p className="search-suggestion">
+                  This is a sample and it is very long very very long
+                </p>
+                <p className="search-suggestion">
+                  This is a sample and it is very long very very long
+                </p>
+              </div>
+            // </Scrollbars>
           )}
         </div>
-        <div className="vehicle-cards-container">
-          
+        <div className={clsx("vehicle-card-container", { "ui-hidden": !displayUI })}>
+          <img 
+            onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? samepleVehicles.length - 1 : --currVehicle))} 
+            className="arrow-button"
+            src={buttonLeft}
+            alt="arrow left"
+          />
+            <VehicleCard
+              type={samepleVehicles[currVehicle].type}
+              route={samepleVehicles[currVehicle].route} 
+              direction={samepleVehicles[currVehicle].direction}
+              terminal={samepleVehicles[currVehicle].terminal}
+              delay={samepleVehicles[currVehicle].delay}
+              nextStation={samepleVehicles[currVehicle].nextStation}
+              icon={transitImagesLight[samepleVehicles[currVehicle].type]}
+            />
+          <img 
+            onClick={() => setCurrVehicle(currVehicle => (currVehicle === samepleVehicles.length - 1 ? 0 : ++currVehicle))} 
+            className="arrow-button" 
+            src={buttonRight} 
+            alt="arrow right" 
+          />
         </div>
-        <img alt="Trajectory logo" className="logo" src={logo} />
       </div>
+      <img alt="Trajectory logo" className="logo" src={logo} />
     </div>
   );
 }

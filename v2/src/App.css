@@ -98,9 +98,17 @@ hr {
 .arrow-button {
   display: block;
   height: 2rem;
+  transition: transform 500ms;
+}
+
+.left {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.right {
   margin-right: 0;
   margin-left: auto;
-  transition: transform 500ms;
 }
 
 .dropdown-on {
@@ -334,6 +342,7 @@ hr {
   align-items: center;
   display: flex;
   flex-direction: row;
+  width: calc(100%);
 }
 
 .vehicle-card-header {
@@ -373,4 +382,27 @@ hr {
 
 .ui-hidden {
   display: none;
+}
+
+@media(max-width: 767px) {
+  .search-container {
+    max-width: calc(100% - 4rem);
+  }
+
+  .vehicle-card-container {
+    width: calc(100% - 4rem);
+  }
+
+  .logo {
+    width: 4rem;
+    bottom: 0rem;
+    left: calc(50% - 2rem);
+  }
+
+  .vehicle-card-header-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 1rem);
+  }
 }

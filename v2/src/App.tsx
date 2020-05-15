@@ -118,7 +118,7 @@ const App = () => {
             </h3>
             <img 
               onClick={() => activateDropdown(!dropdown)} 
-              className={clsx("arrow-button", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
+              className={clsx("arrow-button right", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
               src={buttonDown}
               alt="dropdown button" 
             />
@@ -173,11 +173,11 @@ const App = () => {
         <div className={clsx("vehicle-card-container", { "ui-hidden": !displayUI, "slide-left-out": dropdown })}>
           <img 
             onClick={() => setCurrVehicle(currVehicle => (currVehicle === 0 ? samepleVehicles.length - 1 : --currVehicle))} 
-            className="arrow-button"
+            className="arrow-button left"
             src={buttonLeft}
             alt="arrow left"
           />
-            <div className="vehicle-card-body-container">
+            <div className={"vehicle-card-body-container"}>
               <div className={"vehicle-card-body"}>
                 <VehicleCard
                   type={samepleVehicles[currVehicle].type}
@@ -194,10 +194,21 @@ const App = () => {
             </div>
           <img 
             onClick={() => setCurrVehicle(currVehicle => (currVehicle === samepleVehicles.length - 1 ? 0 : ++currVehicle))} 
-            className="arrow-button" 
+            className="arrow-button right" 
             src={buttonRight} 
             alt="arrow right" 
           />
+        </div>
+        <div className="advanced-controls-container">
+          <div className="transit-icon-container">
+            locate
+          </div>
+          <div className="transit-icon-container">
+            vehicles
+          </div>
+          <div className="transit-icon-container">
+            compass
+          </div>
         </div>
       </div>
       <img alt="Trajectory logo" className="logo" src={logo} />

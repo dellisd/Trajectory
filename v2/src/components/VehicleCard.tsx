@@ -5,7 +5,7 @@ const totalDelay = (minutes: number) => {
   const hours = Math.floor(minutes / 60);
 
   return (hours > 0 ? (`${hours} hour${hours > 1 ? 's' : ''}`) : '') 
-    + (hours === 0 ? `${minutes} minutes` : `, ${minutes % 60} minutes`);
+    + (minutes % 60 > 0 ? (hours === 0 ? (minutes % 60 === 1 ? `${minutes} minute` : `${minutes} minutes`) : `, ${minutes % 60} minutes`) : '');
 }
 
 export const VehicleCard = (props: CarouselCardProps) => {

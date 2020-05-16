@@ -84,8 +84,8 @@ const App = () => {
   const [vehicleCardMinimized, setVehicleCardMinimized] = useState(false);
   const [wheelHover, setWheelHover] = useState(false);
   const [settings, setSettings] = useState({
-    vehicles: false,
-    roads: false,
+    vehicles: true,
+    roads: true,
     location: false,
     ui: true
   });
@@ -132,14 +132,14 @@ const App = () => {
       <div className="map">
       </div>
       <div className="controls">
-        <div className={clsx("side-menu-container", { "ui-hidden": !settings.ui, "slide-left": search })}>
+        <div className={clsx("side-menu-container animated", { "ui-hidden": !settings.ui, "slide-left": search })}>
           <div className="side-menu-header-container">
             <h3 className="side-menu-header">
               Active transit
             </h3>
             <img
               onClick={() => activateDropdown(!dropdown)} 
-              className={clsx("arrow-button right", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
+              className={clsx("arrow-button right animated", { "dropdown-on": dropdown, "dropdown-off": !dropdown })} 
               src={buttonDown}
               alt="dropdown button" 
             />
@@ -156,7 +156,7 @@ const App = () => {
             {transitOption('Bus', 'bus', BusLight)}
           </div>
         </div>
-        <div className={clsx("search-container", { "ui-hidden": !settings.ui })}>
+        <div className={clsx("search-container animated", { "ui-hidden": !settings.ui, "extend": search })}>
           <div className="search-controls-container">
             <input 
               autoFocus={search}
@@ -193,7 +193,7 @@ const App = () => {
         </div>
         {currentVehicles.length > 0 ? (
           <div
-            className={clsx("vehicle-card-options-container", { "slide-left-out": dropdown, "ui-hidden": !settings.ui })}
+            className={clsx("vehicle-card-options-container animated", { "slide-left-out": dropdown, "ui-hidden": !settings.ui, "slide-left": search })}
           >
             <div
               className="vehicle-card-minimize-container" 
@@ -209,7 +209,7 @@ const App = () => {
                 alt="arrow left"
               />
                 <div className={"vehicle-card-body-container"}>
-                  <div className={"vehicle-card-body"}>
+                  <div className={"vehicle-card-body animated"}>
                     <VehicleCard
                       type={currentVehicles[currVehicle].type}
                       route={currentVehicles[currVehicle].route} 
@@ -234,7 +234,7 @@ const App = () => {
           </div>
         ) : (
           <div 
-            className={ clsx("vehicle-card-options-container vehicle-card-container", 
+            className={ clsx("vehicle-card-options-container animated vehicle-card-container", 
               { 
                 "slide-left-out": dropdown, 
                 "ui-hidden": !settings.ui 
@@ -246,7 +246,7 @@ const App = () => {
             </h3>
           </div>
         )}
-        <div className="advanced-controls-container">
+        <div className={clsx("advanced-controls-container animated", { "slide-right": search })}>
           {settings.ui && (
             <div>
               <div 
@@ -265,7 +265,7 @@ const App = () => {
                 onClick={() => setSettings({ ...settings, vehicles: !settings.vehicles })}
               >
                 <img
-                  className={clsx("transit-icon", { "animate-wheel": wheelHover })}
+                  className={clsx("transit-icon animated", { "animate-wheel": wheelHover })}
                   src={wheel} alt="wheel icon"
                   onMouseOver={() => setWheelHover(!wheelHover)}
                   onMouseOut={() => setWheelHover(!wheelHover)}
@@ -299,7 +299,7 @@ const App = () => {
           </div>
         </div>
       </div>
-      <img alt="Trajectory logo" className="logo" src={logo} />
+      <img alt="Trajectory logo" className={clsx("logo animated", { "slide-left": search })} src={logo} />
     </div>
   );
 }

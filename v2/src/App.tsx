@@ -109,10 +109,10 @@ const App = () => {
     console.log(followingVehicle);
   }, [followingVehicle])
 
-  const transitIcon = (transitType: string) => (
+  const transitIcon = (transitType: string, type?: string) => (
     <div 
       key={transitType} 
-      onClick={() => setActiveTransit({ ...activeTransit, [`${transitType}`]: !activeTransit[transitType] })} 
+      onClick={() => type !== 'suggestion' && setActiveTransit({ ...activeTransit, [`${transitType}`]: !activeTransit[transitType] })} 
       className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}
     >
       <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} icon`} />
@@ -127,6 +127,22 @@ const App = () => {
       </p>
     </div>
   );
+
+  const generateSeachSuggestions = () => (
+    <div>
+      {sampleVehicles.map((vehicle) => (
+        // <p className="search-suggestion">
+        //   {vehicle.type}
+        // </p>
+        <div className="transit-box"> 
+          {transitIcon(vehicle.type, 'suggestion')}
+          <p className="transit-header">
+            {vehicle.route}
+          </p>
+        </div>
+      ))}
+    </div>
+  )
 
   return (
     <div className="main-container">
@@ -165,7 +181,9 @@ const App = () => {
               onFocus={(e) => e.target.select()}
               disabled={!search} 
               className={clsx("search-box", { "search-box-on": search, "search-box-off": !search })} 
-              type="text" placeholder="501 Queens" 
+              type="text" placeholder="501 Queens"
+              onChange={(e) => setSearchValue(e.target.value)}
+              value={searchValue}
             />
             <div className="search-icon-container" onClick={() => activateSearch(!search)}>
               <img className="transit-icon" src={searchLight} alt="search icon" />
@@ -174,21 +192,7 @@ const App = () => {
           {search && (
             // <Scrollbars> @TODO can't get this to work atm
               <div className="search-suggestions-container">
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
+                {generateSeachSuggestions()}
               </div>
             // </Scrollbars>
           )}

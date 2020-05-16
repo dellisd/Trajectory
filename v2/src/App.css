@@ -9,6 +9,7 @@
   --black-box: rgb(0, 0, 0, 0.7);
   --search-box-max-width: 300px;
   --container-border-radius: 1.5rem;
+  --container-transition-out-width: calc(100% - 4rem)
 }
 
 html {
@@ -72,7 +73,6 @@ hr {
   width: max-content;
   border-radius: var(--container-border-radius);
   overflow: hidden;
-  transition: transform 500ms;
 }
 
 .logo {
@@ -103,7 +103,6 @@ hr {
 .arrow-button {
   display: block;
   height: 2rem;
-  transition: transform 500ms;
 }
 
 .left {
@@ -155,7 +154,6 @@ hr {
 .transit-icon {
   height: 100%;
   width: 100%;
-  transition: transform 500ms;
 }
 
 .transit-icon-container {
@@ -243,6 +241,10 @@ hr {
   padding: 0.5rem;
   align-items: flex-end;
   overflow: hidden;
+  max-width: 4rem;
+}
+
+.extend {
   max-width: 300px;
 }
 
@@ -363,7 +365,7 @@ hr {
 }
 
 .vehicle-card-body {
-  transition: transform 400ms;
+  transition: transform 500ms;
 }
 
 .vehicle-card-button {
@@ -439,7 +441,6 @@ hr {
   bottom: 2rem;
   display: flex;
   flex-direction: column;
-  transition: transform 500ms;
 }
 
 .vehicle-card-info {
@@ -451,6 +452,10 @@ hr {
   max-height: 0;
 }
 
+.animated {
+  transition: transform 500ms, max-width 500ms, max-height 500ms;
+}
+
 @media(max-width: 767px) {
   html {
     font-size: 4vw;
@@ -458,6 +463,7 @@ hr {
 
   .search-container {
     max-width: calc(100% - 4rem);
+    max-height: calc(100% - 4rem);
   }
 
   .vehicle-card-container {
@@ -473,7 +479,9 @@ hr {
   }
 
   .vehicle-card {
-    width: calc(100% - 2rem);
+    width: calc(100% - 1rem);
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
   }
 
   .logo {
@@ -506,5 +514,9 @@ hr {
 
   .slide-left {
     transform: translateX(calc(-100% - 2rem));
+  }
+
+  .slide-right {
+    transform: translateX(calc(100% + 2rem));
   }
 }

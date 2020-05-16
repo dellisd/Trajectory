@@ -12,8 +12,8 @@
   --container-transition-out-width: calc(100% - 4rem)
 }
 
-html {
-  font-size: 1vw;
+html, body {
+  height: 100% !important;
 }
 
 body,
@@ -516,7 +516,7 @@ hr {
     transform: translateX(calc(-100% - 2rem));
   }
 
-  .slide-right {
-    transform: translateX(calc(100% + 2rem));
+  .slide-left-outter {
+    transform: translateX(calc(-100vw));
   }
 }

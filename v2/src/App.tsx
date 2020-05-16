@@ -246,7 +246,7 @@ const App = () => {
             </h3>
           </div>
         )}
-        <div className={clsx("advanced-controls-container animated", { "slide-right": search })}>
+        <div className={clsx("advanced-controls-container animated", { "slide-left-outter": search })}>
           {settings.ui && (
             <div>
               <div 

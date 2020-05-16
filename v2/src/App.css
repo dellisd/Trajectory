@@ -9,6 +9,11 @@
   --black-box: rgb(0, 0, 0, 0.7);
   --search-box-max-width: 300px;
   --container-border-radius: 1.5rem;
+  --container-transition-out-width: calc(100% - 4rem)
+}
+
+html, body {
+  height: 100% !important;
 }
 
 body,
@@ -37,6 +42,16 @@ button:focus {
 
 p {
   margin: 0;
+}
+
+hr {
+  border-style: solid !important;
+  border-width: 1px !important;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  border-color: white;
+  transition: transform 200ms;
 }
 
 .main-container {
@@ -77,10 +92,6 @@ p {
 
 .side-menu-divider {
   color: black;
-  border-width: 1px;
-  border-style: solid;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
   width: 100%;
 }
 
@@ -92,9 +103,16 @@ p {
 .arrow-button {
   display: block;
   height: 2rem;
+}
+
+.left {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.right {
   margin-right: 0;
   margin-left: auto;
-  transition: transform 500ms;
 }
 
 .dropdown-on {
@@ -108,7 +126,7 @@ p {
 .map {
   height: 100%;
   width: 100%;
-  background-color: orange;
+  background-color: darkorange;
   position: absolute;
 }
 
@@ -157,7 +175,7 @@ p {
 .side-menu-options {
   display: flex;
   flex-direction: column;
-  max-height: 300px;
+  max-height: 100vh;
   height: max-content;
   overflow: hidden;
   transition: max-height 750ms ease;
@@ -172,17 +190,14 @@ p {
   flex-direction: row;
   margin-top: 1rem;
   flex-wrap: wrap;
-  transition: transform 500ms;
+  max-height: 2rem;
+  transition: transform 500ms, max-height 500ms;
   transition-delay: 250ms;
-}
-
-.slide-in {
-  transform: translateX(0);
 }
 
 .slide-out{
   transform: translate(calc(-100% - 4rem));
-  height: 0;
+  max-height: 0;
 }
 
 .side-menu-active-transit .transit-icon-container:not(:first-child) {
@@ -226,6 +241,11 @@ p {
   padding: 0.5rem;
   align-items: flex-end;
   overflow: hidden;
+  max-width: 4rem;
+}
+
+.extend {
+  max-width: 300px;
 }
 
 .search-icon-container {
@@ -237,6 +257,8 @@ p {
   padding: 0.4rem;
   background-color: black;
   border: none;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .search-box {
@@ -267,9 +289,10 @@ p {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  min-width: 2.3rem;
+  min-width: 2.5rem;
   background-color: black;
   border-radius: 2rem;
+  max-width: 100%;
 }
 
 .search-suggestions-container {
@@ -280,10 +303,11 @@ p {
   align-self: flex-start;
   padding: 1rem;
   border-radius: 1rem;
-  max-width: calc(100%);
+  max-width: 100%;
   max-height: 300px;
   overflow: auto;
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 .search-suggestion {
@@ -304,9 +328,6 @@ p {
 }
 
 .vehicle-card-container {
-  position: absolute;
-  left: 2rem;
-  bottom: 2rem;
   display: flex;
   background-color: var(--black-box);
   padding: 1rem;
@@ -318,12 +339,16 @@ p {
 .vehicle-card {
   margin-right: 1rem;
   margin-left: 1rem;
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .vehicle-card-header-container {
   align-items: center;
   display: flex;
   flex-direction: row;
+  width: calc(100%);
 }
 
 .vehicle-card-header {
@@ -331,6 +356,167 @@ p {
   margin-left: 1rem;
 }
 
+.vehicle-card-section {
+  margin-bottom: 0.5rem;
+}
+
+.vehicle-card-body-container {
+  overflow: hidden;
+}
+
+.vehicle-card-body {
+  transition: transform 500ms;
+}
+
+.vehicle-card-button {
+  padding: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  width: max-content;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.slide-left-out {
+  transform: translateX(calc(-100% - 2rem));
+}
+
+.slide-left-in {
+  transform: translateX(400px);
+}
+
 .ui-hidden {
-  display: none;
+  display: none !important;
+}
+
+.advanced-controls-container {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  background-color: var(--black-box);
+  padding: 0.5rem;
+  border-radius: var(--container-border-radius);
+}
+
+.advanced-controls-icon-container {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.3rem;
+  border: none !important;
+  background-color: transparent;
+}
+
+.active {
+  background-color: black;
+}
+
+.advanced-controls-icon-container:first-child {
+  margin-top: 0rem;
+}
+
+.animate-wheel {
+  transform: rotate(-390deg);
+}
+
+.vehicle-card-minimize-container {
+  position: relative;
+  height: 1rem;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  border-radius: var(--container-border-radius);
+  width: 4rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vehicle-card-options-container {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicle-card-info {
+  max-height: 14rem;
+  transition: max-height 500ms;
+}
+
+.minimized {
+  max-height: 0;
+}
+
+.animated {
+  transition: transform 500ms, max-width 500ms, max-height 500ms;
+}
+
+@media(max-width: 767px) {
+  html {
+    font-size: 4vw;
+  }
+
+  .search-container {
+    max-width: calc(100% - 4rem);
+    max-height: calc(100% - 4rem);
+  }
+
+  .vehicle-card-container {
+    width: 100%;
+  }
+
+  .vehicle-card-body-container {
+    width: 100%;
+  }
+
+  .vehicle-card-options-container {
+    width: calc(100% - 8rem);
+  }
+
+  .vehicle-card {
+    width: calc(100% - 1rem);
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .logo {
+    width: 4rem;
+    bottom: 0rem;
+    left: 2rem;
+    right: 0;
+  }
+
+  .vehicle-card-header-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .search-icon-container {
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.2rem;
+  }
+
+  .transit-icon-container {
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.2rem;
+    justify-content: center;
+    border-width: 1px !important;
+  }
+
+  .slide-left {
+    transform: translateX(calc(-100% - 2rem));
+  }
+
+  .slide-left-outter {
+    transform: translateX(calc(-100vw));
+  }
 }

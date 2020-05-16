@@ -14,6 +14,7 @@ import StreetCarLight from './assets/streetcar-light.svg';
 import SubwayLight from './assets/subway-light.svg';
 import BusLight from './assets/bus-light.svg';
 import searchLight from './assets/search-light.svg';
+import { Map } from "./components/Map";
 import roadAnimated from './assets/road-animated.svg';
 import road from './assets/road.svg';
 import wheel from './assets/wheel.svg';
@@ -130,6 +131,7 @@ const App = () => {
   return (
     <div className="main-container">
       <div className="map">
+        <Map/>
       </div>
       <div className="controls">
         <div className={clsx("side-menu-container animated", { "ui-hidden": !settings.ui, "slide-left": search })}>

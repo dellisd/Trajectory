@@ -41,7 +41,7 @@ const sampleVehicles: CarouselVehicle[] = [
     nextStation: 'Dundas'
   },
   {
-    type: 'via',
+    type: 'viarail',
     route: 52,
     direction: 'Northbound',
     terminal: `Montreal`,
@@ -60,7 +60,7 @@ const sampleVehicles: CarouselVehicle[] = [
 
 const transitImagesLight: TransitIconImages = {
   gotrain: GOTrainLight,
-  via: VIALight,
+  viarail: VIALight,
   streetcar: StreetCarLight,
   subway: SubwayLight,
   bus: BusLight
@@ -92,7 +92,7 @@ const App = () => {
   });
   const [activeTransit, setActiveTransit] = useState<ActiveTransit>({
     gotrain: true,
-    via: true,
+    viarail: true,
     streetcar: false,
     subway: true,
     bus: false
@@ -128,16 +128,19 @@ const App = () => {
     </div>
   );
 
-  const generateSeachSuggestions = () => (
-    <div>
+  const generateSeachSuggestions = () => searchValue && (
+    <div className="search-suggestions-container">
       {sampleVehicles.map((vehicle) => (
-        // <p className="search-suggestion">
-        //   {vehicle.type}
-        // </p>
-        <div className="transit-box"> 
+        vehicle.type.includes(searchValue.replace(' ', ''))
+        || vehicle.route.toString().includes(searchValue)
+        || vehicle.direction.includes(searchValue)
+        || vehicle.terminal.includes(searchValue)
+        || vehicle.nextStation.includes(searchValue))
+      && (
+        <div className="transit-box search-suggestion"> 
           {transitIcon(vehicle.type, 'suggestion')}
           <p className="transit-header">
-            {vehicle.route}
+            <b>{!['viarail', 'gotrain'].includes(vehicle.type) ? 'Route' : 'Train'} {vehicle.route}</b>
           </p>
         </div>
       ))}
@@ -168,7 +171,7 @@ const App = () => {
           </div>
           <div className={clsx("side-menu-options", { "hidden": !dropdown })}>
             {transitOption('Go Train', 'gotrain', GOTrainLight)}
-            {transitOption('VIA', 'via', VIALight)}
+            {transitOption('VIA', 'viarail', VIALight)}
             {transitOption('Street Car', 'streetcar', StreetCarLight)}
             {transitOption('Subway', 'subway', SubwayLight)}
             {transitOption('Bus', 'bus', BusLight)}
@@ -189,13 +192,7 @@ const App = () => {
               <img className="transit-icon" src={searchLight} alt="search icon" />
             </div>
           </div>
-          {search && (
-            // <Scrollbars> @TODO can't get this to work atm
-              <div className="search-suggestions-container">
-                {generateSeachSuggestions()}
-              </div>
-            // </Scrollbars>
-          )}
+          {search && generateSeachSuggestions()}
         </div>
         {currentVehicles.length > 0 ? (
           <div

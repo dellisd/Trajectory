@@ -4,7 +4,7 @@
   --green-gotrain: #4a7729;
   --blue-subway: #2F5DFF;
   --red-streetcar: #FF292F;
-  --yellow-via: #FFCC00;
+  --yellow-viarail: #FFCC00;
   --purple-bus: #A21A69;
   --black-box: rgb(0, 0, 0, 0.7);
   --search-box-max-width: 300px;
@@ -129,6 +129,7 @@ hr {
   width: 100%;
   background-color: darkorange;
   position: absolute;
+  z-index: 0;
 }
 
 .controls {
@@ -210,9 +211,9 @@ hr {
   border: var(--green-gotrain);
 }
 
-.via {
-  background-color: var(--yellow-via);
-  border: var(--yellow-via);
+.viarail {
+  background-color: var(--yellow-viarail);
+  border: var(--yellow-viarail);
 }
 
 .streetcar {
@@ -243,6 +244,7 @@ hr {
   align-items: flex-end;
   overflow: hidden;
   max-width: 4rem;
+  max-height: 50%;
 }
 
 .extend {
@@ -307,7 +309,6 @@ hr {
   max-width: 100%;
   max-height: 300px;
   overflow: auto;
-  margin-bottom: 0.5rem;
   width: 100%;
 }
 

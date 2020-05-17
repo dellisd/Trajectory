@@ -23,7 +23,7 @@ export const VehicleCard = (props: CarouselCardProps) => {
           <img className="transit-icon" src={props.icon} alt="current vehicle icon" />
         </div>
         <h3 className="vehicle-card-header">
-          <b>{!['via', 'gotrain'].includes(props.type) ? 'Route' : 'Train'} {props.route}</b>
+          <b>{!['viarail', 'gotrain'].includes(props.type) ? 'Route' : 'Train'} {props.route}</b>
         </h3>
         <div onClick={() => setFollowing(!following)} className="vehicle-card-button">
           <h4>

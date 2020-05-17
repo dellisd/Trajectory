@@ -1,6 +1,6 @@
 export interface TransitIconImages {
   [gotrain: string]: string,
-  via: string,
+  viarail: string,
   streetcar: string,
   subway: string,
   bus: string
@@ -8,14 +8,14 @@ export interface TransitIconImages {
 
 export interface ActiveTransit {
   [gotrain: string]: boolean,
-  via: boolean,
+  viarail: boolean,
   streetcar: boolean,
   subway: boolean,
   bus: boolean
 }
 
 export interface CarouselVehicle {
-  type: 'gotrain' | 'via' | 'streetcar' | 'subway' | 'bus',
+  type: 'gotrain' | 'viarail' | 'streetcar' | 'subway' | 'bus',
   route: number,
   direction: 'Northbound' | 'Southbound' | 'Westbound' | 'Eastbound',
   terminal: string,

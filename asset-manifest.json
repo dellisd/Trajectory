@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2c000932.chunk.css",
+    "main.js": "/static/js/main.06ff087e.chunk.js",
+    "main.js.map": "/static/js/main.06ff087e.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.58c4d41b.js",
+    "runtime-main.js.map": "/static/js/runtime-main.58c4d41b.js.map",
+    "static/js/2.9fd8d504.chunk.js": "/static/js/2.9fd8d504.chunk.js",
+    "static/js/2.9fd8d504.chunk.js.map": "/static/js/2.9fd8d504.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.2f876ebcb734bd14cbf7be60ba1890a0.js": "/precache-manifest.2f876ebcb734bd14cbf7be60ba1890a0.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.2c000932.chunk.css.map": "/static/css/main.2c000932.chunk.css.map",
+    "static/js/2.9fd8d504.chunk.js.LICENSE.txt": "/static/js/2.9fd8d504.chunk.js.LICENSE.txt",
+    "static/media/bus-light.svg": "/static/media/bus-light.08ed1c65.svg",
+    "static/media/button-down.svg": "/static/media/button-down.aaebb65c.svg",
+    "static/media/button-left.svg": "/static/media/button-left.0b0ece0a.svg",
+    "static/media/button-right.svg": "/static/media/button-right.c7f6c1d1.svg",
+    "static/media/gotrain-light.svg": "/static/media/gotrain-light.a319f4ad.svg",
+    "static/media/location-animated.svg": "/static/media/location-animated.764ad82c.svg",
+    "static/media/location.svg": "/static/media/location.602d69c7.svg",
+    "static/media/road-animated.svg": "/static/media/road-animated.1ca20893.svg",
+    "static/media/road.svg": "/static/media/road.d04f9a08.svg",
+    "static/media/search-light.svg": "/static/media/search-light.ae9f9b5c.svg",
+    "static/media/streetcar-light.svg": "/static/media/streetcar-light.49c5cc9d.svg",
+    "static/media/subway-light.svg": "/static/media/subway-light.447839b3.svg",
+    "static/media/trajectory_logo.svg": "/static/media/trajectory_logo.b079ed2a.svg",
+    "static/media/via-light.svg": "/static/media/via-light.c8a8aee2.svg",
+    "static/media/visible-animated.svg": "/static/media/visible-animated.0682f0e4.svg",
+    "static/media/visible.svg": "/static/media/visible.673c6630.svg",
+    "static/media/wheel.svg": "/static/media/wheel.37b6c3d7.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.58c4d41b.js",
+    "static/js/2.9fd8d504.chunk.js",
+    "static/css/main.2c000932.chunk.css",
+    "static/js/main.06ff087e.chunk.js"
+  ]
+}

@@ -41,7 +41,7 @@ const sampleVehicles: CarouselVehicle[] = [
     nextStation: 'Dundas'
   },
   {
-    type: 'via',
+    type: 'viarail',
     route: 52,
     direction: 'Northbound',
     terminal: `Montreal`,
@@ -60,7 +60,7 @@ const sampleVehicles: CarouselVehicle[] = [
 
 const transitImagesLight: TransitIconImages = {
   gotrain: GOTrainLight,
-  via: VIALight,
+  viarail: VIALight,
   streetcar: StreetCarLight,
   subway: SubwayLight,
   bus: BusLight
@@ -92,7 +92,7 @@ const App = () => {
   });
   const [activeTransit, setActiveTransit] = useState<ActiveTransit>({
     gotrain: true,
-    via: true,
+    viarail: true,
     streetcar: false,
     subway: true,
     bus: false
@@ -109,10 +109,10 @@ const App = () => {
     console.log(followingVehicle);
   }, [followingVehicle])
 
-  const transitIcon = (transitType: string) => (
+  const transitIcon = (transitType: string, type?: string) => (
     <div 
       key={transitType} 
-      onClick={() => setActiveTransit({ ...activeTransit, [`${transitType}`]: !activeTransit[transitType] })} 
+      onClick={() => type !== 'suggestion' && setActiveTransit({ ...activeTransit, [`${transitType}`]: !activeTransit[transitType] })} 
       className={`transit-icon-container ${transitType} ${!activeTransit[transitType] && 'inactive'}`}
     >
       <img className="transit-icon" src={transitImagesLight[transitType]} alt={`${transitType} icon`} />
@@ -127,6 +127,25 @@ const App = () => {
       </p>
     </div>
   );
+
+  const generateSeachSuggestions = () => searchValue && (
+    <div className="search-suggestions-container">
+      {sampleVehicles.map((vehicle) => (
+        vehicle.type.includes(searchValue.replace(' ', ''))
+        || vehicle.route.toString().includes(searchValue)
+        || vehicle.direction.includes(searchValue)
+        || vehicle.terminal.includes(searchValue)
+        || vehicle.nextStation.includes(searchValue))
+      && (
+        <div className="transit-box search-suggestion"> 
+          {transitIcon(vehicle.type, 'suggestion')}
+          <p className="transit-header">
+            <b>{!['viarail', 'gotrain'].includes(vehicle.type) ? 'Route' : 'Train'} {vehicle.route}</b>
+          </p>
+        </div>
+      ))}
+    </div>
+  )
 
   return (
     <div className="main-container">
@@ -152,7 +171,7 @@ const App = () => {
           </div>
           <div className={clsx("side-menu-options", { "hidden": !dropdown })}>
             {transitOption('Go Train', 'gotrain', GOTrainLight)}
-            {transitOption('VIA', 'via', VIALight)}
+            {transitOption('VIA', 'viarail', VIALight)}
             {transitOption('Street Car', 'streetcar', StreetCarLight)}
             {transitOption('Subway', 'subway', SubwayLight)}
             {transitOption('Bus', 'bus', BusLight)}
@@ -165,33 +184,15 @@ const App = () => {
               onFocus={(e) => e.target.select()}
               disabled={!search} 
               className={clsx("search-box", { "search-box-on": search, "search-box-off": !search })} 
-              type="text" placeholder="501 Queens" 
+              type="text" placeholder="505 | Montreal | via | Union Station"
+              onChange={(e) => setSearchValue(e.target.value)}
+              value={searchValue}
             />
             <div className="search-icon-container" onClick={() => activateSearch(!search)}>
               <img className="transit-icon" src={searchLight} alt="search icon" />
             </div>
           </div>
-          {search && (
-            // <Scrollbars> @TODO can't get this to work atm
-              <div className="search-suggestions-container">
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-                <p className="search-suggestion">
-                  This is a sample and it is very long very very long
-                </p>
-              </div>
-            // </Scrollbars>
-          )}
+          {search && generateSeachSuggestions()}
         </div>
         {currentVehicles.length > 0 ? (
           <div

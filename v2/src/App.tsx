@@ -184,7 +184,7 @@ const App = () => {
               onFocus={(e) => e.target.select()}
               disabled={!search} 
               className={clsx("search-box", { "search-box-on": search, "search-box-off": !search })} 
-              type="text" placeholder="501 Queens"
+              type="text" placeholder="505 | Montreal | via | Union Station"
               onChange={(e) => setSearchValue(e.target.value)}
               value={searchValue}
             />
